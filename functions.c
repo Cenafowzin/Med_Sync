@@ -43,9 +43,10 @@ specNode *selectSpec(areaNode *SelectedArea, specNode *SpecHead, specNode *PrevS
                 printf("(%d) %s\n-----------------\n", (count), current->name);
                 current = current->next;
                 count++;
-            }
+            }else{
+                current = current->next;
 
-            current = current->next;
+            }
         }
 
         printf("Digite o numero da especialização: ");
@@ -58,6 +59,7 @@ specNode *selectSpec(areaNode *SelectedArea, specNode *SpecHead, specNode *PrevS
             return NULL;
 
         }
+
         if(area > count || area < 0){
             printf("Opção inválida\n");
             return NULL;
@@ -66,12 +68,13 @@ specNode *selectSpec(areaNode *SelectedArea, specNode *SpecHead, specNode *PrevS
         current = SpecHead;
         count = 1;
 
-        while(count != area){
+        while(count < area){
             if(current->area == SelectedArea){
                 current = current->next;
                 count++;
+            }else{
+                current = current->next;
             }
-            current = current->next;
         }
 
         return current;
@@ -160,11 +163,11 @@ void editSpec(areaNode *SelectedArea, specNode **SpecHead){
         }
 
         int size = 0;
-        selectedSpec->name = (char *)realloc((selectedSpec->name), sizeof(char));
+        selectedSpec->name = (char *)realloc(selectedSpec->name, sizeof(char));
         selectedSpec->name[size] = ch;
 
         while(ch != '\n'){
-            selectedSpec->name = (char *)realloc((selectedSpec->name), (size + 2) * sizeof(char));
+            selectedSpec->name = (char *)realloc(selectedSpec->name, (size + 2) * sizeof(char));
             selectedSpec->name[size] = ch;
             size++;
 
@@ -181,12 +184,13 @@ void deleteSpec(areaNode *SelectedArea, specNode **SpecHead){
     selectedSpec = selectSpec(SelectedArea, *SpecHead, selectedSpec);
 
     if(selectedSpec == NULL || *SpecHead == NULL){
-        printf("Nenhuma área");
+        printf("Nenhuma especialização");
         return;
 
     }else if( *SpecHead == selectedSpec){
         temp = *SpecHead;
         *SpecHead = (*SpecHead)->next;
+        free(temp->name);
         free(temp);
         
     }else{
@@ -196,33 +200,38 @@ void deleteSpec(areaNode *SelectedArea, specNode **SpecHead){
 
         temp = current->next;
         current->next = current->next->next;
+        free(temp->name);
         free(temp);
         
     }
 }
 
-void menuSpec(areaNode *SelectedArea, specNode *SpecHead){
+void menuSpec(areaNode *SelectedArea, specNode **SpecHead){
     int command = -1;
     specNode *selectedSpec = NULL;
 
     while(command != 0){
+        printf("[%s]\n", *SpecHead);
         printf("Área: %s\n|----------------|\n", SelectedArea->name);
         
-        if(SpecHead == NULL){
-            printf("Não existe nenhuma área\n-----------------\n");
+        if(*SpecHead == NULL){
+            printf("Não existe nenhuma especialização\n-----------------\n");
         }else{
-            specNode *current = SpecHead;
+            specNode *current = *SpecHead;
 
             while(current != NULL){
                 if(current->area == SelectedArea){
                     printf("%s\n-----------------\n", current->name);
                     current = current->next;
 
+                }else{
+                    current = current->next;
+
                 }
                 
-                current = current->next;
             }
         }
+
 
         printf("Selecione uma ação para fazer:\n");
         printf("(0) voltar\n");
@@ -239,20 +248,19 @@ void menuSpec(areaNode *SelectedArea, specNode *SpecHead){
         case 1:
             getchar();
             printf("\033[H\033[2J");
-            createSpec(SelectedArea, &SpecHead);
+            createSpec(SelectedArea, SpecHead);
             printf("\033[H\033[2J");
             break;
 
         case 2:
             printf("\033[H\033[2J");
-            editSpec(SelectedArea, &SpecHead);
+            editSpec(SelectedArea, SpecHead);
             printf("\033[H\033[2J");
-
             break;
 
         case 3:
             printf("\033[H\033[2J");
-            selectedSpec = selectSpec(SelectedArea, SpecHead, selectedSpec);
+            selectedSpec = selectSpec(SelectedArea, *SpecHead, selectedSpec);
             printf("\033[H\033[2J");
 
             if(selectedSpec != NULL){
@@ -262,8 +270,10 @@ void menuSpec(areaNode *SelectedArea, specNode *SpecHead){
 
         case 4:
             printf("\033[H\033[2J");
-            deleteSpec(SelectedArea, &SpecHead);
+            deleteSpec(SelectedArea, SpecHead);
             printf("\033[H\033[2J");
+            break;
+
         }
     }
 
@@ -414,6 +424,7 @@ void deleteArea(areaNode **AreaHead){
     }else if( *AreaHead == selectedArea){
         temp = *AreaHead;
         *AreaHead = (*AreaHead)->next;
+        free(temp->name);
         free(temp);
         
     }else{
@@ -423,6 +434,7 @@ void deleteArea(areaNode **AreaHead){
 
         temp = current->next;
         current->next = current->next->next;
+        free(temp->name);
         free(temp);
         
     }
@@ -482,13 +494,16 @@ void menuArea(areaNode *AreaHead, specNode *SpecHead){
             printf("\033[H\033[2J");
             deleteArea(&AreaHead);
             printf("\033[H\033[2J");
+            break;
 
         case 5:
             printf("\033[H\033[2J");
             selectedArea = selectArea(AreaHead, selectedArea);
             printf("\033[H\033[2J");
-            menuSpec(selectedArea, SpecHead);
+            menuSpec(selectedArea, &SpecHead);
             printf("\033[H\033[2J");
+            break;
+
         }
     }
 
@@ -498,10 +513,25 @@ void menuArea(areaNode *AreaHead, specNode *SpecHead){
 int main()
 {
 
-    areaNode *currentArea, *AreaHead = NULL, *selectedArea = NULL;
-    specNode *currentSpec, *SpecHead = NULL, *selectedSpec = NULL;
+    areaNode *currentArea = NULL, *AreaHead = NULL, *selectedArea = NULL;
+    specNode *currentSpec = NULL, *SpecHead = NULL, *selectedSpec = NULL;
 
     menuArea(AreaHead, SpecHead);
+
+    specNode * c = SpecHead;
+    areaNode * d = AreaHead;
+
+    while(SpecHead != NULL){
+        c = SpecHead;
+        SpecHead = SpecHead->next;
+        free(c);
+    }
+
+    while(AreaHead != NULL){
+        d = AreaHead;
+        AreaHead = AreaHead->next;
+        free(d);
+    }
 
     return 0;
 }
