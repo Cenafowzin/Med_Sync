@@ -17,6 +17,8 @@ typedef struct specNode{
     struct specNode *next;
 } specNode;
 
+// ATIVIDADE ---------------------------------------------------------------
+
 // ESPECIALIZACAO ---------------------------------------------------------------
 
 specNode *selectSpec(areaNode *SelectedArea, specNode *SpecHead, specNode *PrevSelected){
@@ -68,8 +70,11 @@ specNode *selectSpec(areaNode *SelectedArea, specNode *SpecHead, specNode *PrevS
         current = SpecHead;
         count = 1;
 
-        while(count < area){
-            if(current->area == SelectedArea){
+        while(count <= area){
+            if(count == area && current->area == SelectedArea){
+                return current;
+
+            }else if(current->area == SelectedArea){
                 current = current->next;
                 count++;
             }else{
