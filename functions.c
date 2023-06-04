@@ -17,7 +17,16 @@ typedef struct specNode{
     struct specNode *next;
 } specNode;
 
+typedef struct actvNode{
+    char *name;
+    int mod;
+    specNode *spec;
+    struct actvNode *next;
+} actvNode;
+
 // ATIVIDADE ---------------------------------------------------------------
+
+
 
 // ESPECIALIZACAO ---------------------------------------------------------------
 
