@@ -551,6 +551,135 @@ int main()
 }
 
 //ÁREA DE FLÁVIO:
+typedef struct {
+    int permissao;
+    char* nome;
+    char* email;
+    int cpf;
+    int celular;
+    char* endereco;
+    char senha[21];
+    char* area;
+    char** especializacao;
+} StructUser;
+
+/*função para alocar memória para criar espaços para cadastro*/
+StructUser* criarCadastroLogin(StructUser* cadastro) {
+    cadastro = malloc(sizeof(StructUser));
+    cadastro->nome = malloc(sizeof(char) * 100);
+    cadastro->email = malloc(sizeof(char) * 100);
+    cadastro->endereco = malloc(sizeof(char) * 100);
+    cadastro->area = malloc(sizeof(char) * 100);
+    cadastro->especializacao = malloc(sizeof(char*) * 10); // Definido como máximo 10 especializações, ajuste conforme necessário
+    // Inicialize o campo de especialização para NULL
+    for (int i = 0; i < 10; i++) {
+        cadastro->especializacao[i] = NULL;
+    }
+    return cadastro;
+}
+/*liberar memória criada para dados do cadastro*/
+void liberarCadastroLogin(StructUser* cadastro) {
+    free(cadastro->nome);
+    free(cadastro->email);
+    free(cadastro->endereco);
+    free(cadastro->area);
+
+    // Libere memória para cada especialização
+    for (int i = 0; i < 10; i++) {
+        if (cadastro->especializacao[i] != NULL) {
+            free(cadastro->especializacao[i]);
+        }
+    }
+    free(cadastro->especializacao);
+
+    free(cadastro);
+}
+/*receber dados do usuário e salvar no txt*/
+void salvarStructUser(const StructUser* user) {
+    FILE* arquivo = fopen("dados.txt", "w");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        return;
+    }
+
+    fprintf(arquivo, "Permissao: %d\n", user->permissao);
+    fprintf(arquivo, "Nome: %s\n", user->nome);
+    fprintf(arquivo, "Email: %s\n", user->email);
+    fprintf(arquivo, "CPF: %d\n", user->cpf);
+    fprintf(arquivo, "Celular: %d\n", user->celular);
+    fprintf(arquivo, "Endereco: %s\n", user->endereco);
+    fprintf(arquivo, "Senha: %s\n", user->senha);
+    fprintf(arquivo, "Area: %s\n", user->area);
+
+    fprintf(arquivo, "Especializacoes:\n");
+    char** especializacao = user->especializacao;
+    while (*especializacao != NULL) {
+        fprintf(arquivo, "- %s\n", *especializacao);
+        especializacao++;
+    }
+
+    fclose(arquivo);
+    
+}
+
+StructUser* consultarUsuario(const char* email, const char* senha) {
+    FILE* arquivo = fopen("dados.txt", "r");
+    if (arquivo == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        return NULL;
+    }
+
+    StructUser* user;
+    criarCadastroLogin(user);
+
+    char linha[256];
+    while (fgets(linha, sizeof(linha), arquivo)) {
+        char* valorEmail;
+        if (strncmp(linha, "Email: ", 7) == 0) {
+            valorEmail = linha + 7;
+            valorEmail[strlen(valorEmail) - 1] = '\0'; // Remover o caractere de nova linha
+        }
+
+        if  (strncmp(linha, "Senha: ", 7) == 0) {
+            char* valorSenha = linha + 7;
+            valorSenha[strlen(valorSenha) - 1] = '\0'; // Remover o caractere de nova linha
+            if ((strcmp(valorSenha, senha) != 0)||(strcmp(valorEmail, email) != 0)) {
+                // Senha não corresponde, avançar para a próxima linha
+                printf("E-mail ou senha estão incorretos.\n");
+                fclose(arquivo);
+                return NULL;
+            }
+        }
+
+        // Preencher os outros campos do usuário
+        if (strncmp(linha, "Permissao: ", 11) == 0) {
+            sscanf(linha, "Permissao: %d", &(user->permissao));
+        } else if (strncmp(linha, "Nome: ", 6) == 0) {
+            sscanf(linha, "Nome: %[^\n]", user->nome);
+        } else if (strncmp(linha, "CPF: ", 5) == 0) {
+            sscanf(linha, "CPF: %d", &(user->cpf));
+        } else if (strncmp(linha, "Celular: ", 9) == 0) {
+            sscanf(linha, "Celular: %d", &(user->celular));
+        } else if (strncmp(linha, "Endereco: ", 10) == 0) {
+            sscanf(linha, "Endereco: %[^\n]", user->endereco);
+        } else if (strncmp(linha, "Senha: ", 7) == 0) {
+            sscanf(linha, "Senha: %20[^\n]", user->senha);
+        } else if (strncmp(linha, "Area: ", 6) == 0) {
+            sscanf(linha, "Area: %[^\n]", user->area);
+        }
+    }
+    fclose(arquivo);
+
+    return user;
+}
+
+
+
+void give_feedback(){
+
+}
+
+
 
 //ÁREA DE VICTOR:
 
