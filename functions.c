@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "functions.h"
+//#include "functions.h"
 
 //ÁREA DE RODRIGO:
 
@@ -13,18 +13,284 @@ typedef struct areaNode{
 
 typedef struct specNode{
     char *name;
-    areaNode *area;
+    char *area;
     struct specNode *next;
 } specNode;
 
 typedef struct actvNode{
     char *name;
     int mod;
-    specNode *spec;
+    char *spec;
     struct actvNode *next;
 } actvNode;
 
 // ATIVIDADE ---------------------------------------------------------------
+
+actvNode *selectActv(specNode *SelectedSpec, actvNode *ActvHead, actvNode *PrevSelected){
+
+    if(SelectedSpec == NULL){
+        printf("Nenhuma especialização selecionada");
+        return NULL;
+    }
+
+    if (ActvHead == NULL){
+        printf("Não existe nenhuma atividade\n-----------------\n");
+        return NULL;
+
+    }else{
+        int atcv, count = 0;
+        actvNode *current = ActvHead;
+
+        printf("(%d) voltar\n-----------------\n", count);
+        count++;
+
+        while(current != NULL){
+            if(strcmp(current->spec, SelectedSpec->name) == 0){
+                printf("(%d) %s\n-----------------\n", count, current->name);
+                current = current->next;
+                count++;
+            }else{
+                current = current->next;
+
+            }
+        }
+
+        printf("Digite o numero da atividade: ");
+        scanf("%d", &atcv);
+
+        if (atcv == 0){
+            if(PrevSelected != NULL){
+                return PrevSelected;
+            }
+            return NULL;
+
+        }
+
+        if(atcv > count || atcv < 0){
+            printf("Opção inválida\n");
+            return NULL;
+        }
+
+        current = ActvHead;
+        count = 1;
+
+        while(count <= atcv){
+            if(count == atcv && strcmp(current->spec, SelectedSpec->name) == 0){
+                return current;
+
+            }else if(strcmp(current->spec, SelectedSpec->name) == 0){
+                current = current->next;
+                count++;
+            }else{
+                current = current->next;
+            }
+        }
+
+        return current;
+    }
+}
+
+void createActv(specNode *SelectedSpec, actvNode **ActvHead){
+
+    if(SelectedSpec == NULL){
+        printf("Nenhuma especialização selecionada");
+        return;
+    }
+
+    printf("Digite o nome da atividade que deseja criar:\n");
+    char ch = getchar();
+
+    if(ch == '\n'){
+        printf("Você não pode criar uma atividade sem nome!\n");
+        return;
+    }
+
+    if(*ActvHead == NULL){
+
+        *ActvHead = (actvNode *)malloc(sizeof(actvNode));
+        int size = 0;
+        (*ActvHead)->name = (char *)malloc(sizeof(char));
+        (*ActvHead)->name[size] = ch;
+
+        while(ch != '\n'){
+            (*ActvHead)->name = (char *)realloc(((*ActvHead)->name), (size + 2) * sizeof(char));
+            (*ActvHead)->name[size] = ch;
+            size++;
+
+            ch = getchar();
+        }
+        (*ActvHead)->name[size] = '\0';
+        (*ActvHead)->spec = (char *)malloc(sizeof(SelectedSpec->name));
+        strcpy((*ActvHead)->spec, SelectedSpec->name);
+        (*ActvHead)->next = NULL;
+
+    }else{
+
+        actvNode *current = *ActvHead;
+
+        while(current->next != NULL){
+            current = current->next;
+        }
+
+        current->next = (actvNode *)malloc(sizeof(actvNode));
+        current = current->next;
+
+        int size = 0;
+        current->name = (char *)malloc(sizeof(char));
+        current->name[size] = ch;
+
+        while(ch != '\n'){
+            current->name = (char *)realloc((current->name), (size + 2) * sizeof(char));
+            current->name[size] = ch;
+            size++;
+
+            ch = getchar();
+        }
+        current->name[size] = '\0';
+        current->spec = (char *)malloc(sizeof(*(SelectedSpec->name)));
+        strcpy(current->spec, SelectedSpec->name);
+        current->next = NULL;
+    }
+}
+
+void editActv(specNode *SelectedSpec, actvNode **ActvHead){
+    
+    actvNode *selectedActiv = NULL;
+
+    selectedActiv = selectActv(SelectedSpec, *ActvHead, selectedActiv);
+    getchar();
+
+    if(selectedActiv == NULL || *ActvHead == NULL){
+        printf("Nenhuma atividade");
+        return;
+
+    }else{
+        printf("Digite o novo nome da atividade:\n");
+        char ch = getchar();
+
+        if(ch == '\n'){
+            printf("Você não deixar uma atividade sem nome!\n");
+            return;
+        }
+
+        int size = 0;
+        selectedActiv->name = (char *)realloc(selectedActiv->name, sizeof(char));
+        selectedActiv->name[size] = ch;
+
+        while(ch != '\n'){
+            selectedActiv->name = (char *)realloc(selectedActiv->name, (size + 2) * sizeof(char));
+            selectedActiv->name[size] = ch;
+            size++;
+
+            ch = getchar();
+        }
+        selectedActiv->name[size] = '\0';
+        
+    }
+}
+
+void deleteActv(specNode *SelectedSpec, actvNode **ActvHead){
+    actvNode *selectedActiv = NULL, *current = *ActvHead, *temp = NULL;
+
+    selectedActiv = selectActv(SelectedSpec, *ActvHead, selectedActiv);
+
+    if(selectedActiv == NULL || *ActvHead == NULL){
+        printf("Nenhuma atividade");
+        return;
+
+    }else if( *ActvHead == selectedActiv){
+        temp = *ActvHead;
+        *ActvHead = (*ActvHead)->next;
+        free(temp->name);
+        free(temp->spec);
+        free(temp);
+        
+    }else{
+        while(current->next != selectedActiv){
+            current = current->next;
+        }
+
+        temp = current->next;
+        current->next = current->next->next;
+        free(temp->name);
+        free(temp->spec);
+        free(temp);
+        
+    }
+}
+
+void menuActv(specNode *SelectedSpec, actvNode **ActvHead){
+    int command = -1;
+    actvNode *selectedActv = NULL;
+
+    while(command != 0){
+        printf("[%s]\n", *ActvHead);
+        printf("Especialização: %s\n|----------------|\n", SelectedSpec->name);
+        
+        if(*ActvHead == NULL){
+            printf("Não existe nenhuma atividade\n-----------------\n");
+        }else{
+            actvNode *current = *ActvHead;
+
+            while(current != NULL){
+                if(strcmp(current->spec, SelectedSpec->name) == 0){
+                    printf("%s\n-----------------\n", current->name);
+                    current = current->next;
+
+                }else{
+                    current = current->next;
+
+                }
+                
+            }
+        }
+
+
+        printf("Selecione uma ação para fazer:\n");
+        printf("(0) voltar\n");
+        printf("(1) criar atividade\n");
+        printf("(2) editar atividade\n");
+        printf("(3) selecionar atividade\n");
+        printf("(4) deletar atividade\n");
+        scanf("%d", &command);
+
+        switch(command){
+        case 0:
+            return;
+            break;
+        case 1:
+            getchar();
+            printf("\033[H\033[2J");
+            createActv(SelectedSpec, ActvHead);
+            printf("\033[H\033[2J");
+            break;
+
+        case 2:
+            printf("\033[H\033[2J");
+            editActv(SelectedSpec, ActvHead);
+            printf("\033[H\033[2J");
+            break;
+
+        case 3:
+            printf("\033[H\033[2J");
+            selectedActv = selectActv(SelectedSpec, *ActvHead, selectedActv);
+            printf("\033[H\033[2J");
+
+            if(selectedActv != NULL){
+                printf("[%s]\n\n", selectedActv->name);
+            }
+            break;
+
+        case 4:
+            printf("\033[H\033[2J");
+            deleteActv(SelectedSpec, ActvHead);
+            printf("\033[H\033[2J");
+            break;
+
+        }
+    }
+
+}
 
 
 
@@ -33,7 +299,7 @@ typedef struct actvNode{
 specNode *selectSpec(areaNode *SelectedArea, specNode *SpecHead, specNode *PrevSelected){
 
     if(SelectedArea == NULL){
-        printf("Nenhuma especialização selecionada");
+        printf("Nenhuma area selecionada");
         return NULL;
     }
 
@@ -42,7 +308,7 @@ specNode *selectSpec(areaNode *SelectedArea, specNode *SpecHead, specNode *PrevS
         return NULL;
 
     }else{
-        int area, count = 0;
+        int spec, count = 0;
         specNode *current = SpecHead;
 
         printf("(%d) voltar\n-----------------\n", count);
@@ -50,8 +316,8 @@ specNode *selectSpec(areaNode *SelectedArea, specNode *SpecHead, specNode *PrevS
 
         while(current != NULL){
 
-            if(current->area == SelectedArea){
-                printf("(%d) %s\n-----------------\n", (count), current->name);
+            if(strcmp(current->area, SelectedArea->name) == 0){
+                printf("(%d) %s\n-----------------\n", count, current->name);
                 current = current->next;
                 count++;
             }else{
@@ -61,9 +327,9 @@ specNode *selectSpec(areaNode *SelectedArea, specNode *SpecHead, specNode *PrevS
         }
 
         printf("Digite o numero da especialização: ");
-        scanf("%d", &area);
+        scanf("%d", &spec);
 
-        if (area == 0){
+        if (spec == 0){
             if(PrevSelected != NULL){
                 return PrevSelected;
             }
@@ -71,7 +337,7 @@ specNode *selectSpec(areaNode *SelectedArea, specNode *SpecHead, specNode *PrevS
 
         }
 
-        if(area > count || area < 0){
+        if(spec > count || spec < 0){
             printf("Opção inválida\n");
             return NULL;
         }
@@ -79,11 +345,11 @@ specNode *selectSpec(areaNode *SelectedArea, specNode *SpecHead, specNode *PrevS
         current = SpecHead;
         count = 1;
 
-        while(count <= area){
-            if(count == area && current->area == SelectedArea){
+        while(count <= spec){
+            if(count == spec && strcmp(current->area, SelectedArea->name) == 0){
                 return current;
 
-            }else if(current->area == SelectedArea){
+            }else if(strcmp(current->area, SelectedArea->name) == 0){
                 current = current->next;
                 count++;
             }else{
@@ -125,7 +391,8 @@ void createSpec(areaNode *SelectedArea, specNode **SpecHead){
             ch = getchar();
         }
         (*SpecHead)->name[size] = '\0';
-        (*SpecHead)->area = SelectedArea;
+        (*SpecHead)->area = (char *)malloc(sizeof(SelectedArea->name));
+        strcpy((*SpecHead)->area, SelectedArea->name);
         (*SpecHead)->next = NULL;
 
     }else{
@@ -151,7 +418,8 @@ void createSpec(areaNode *SelectedArea, specNode **SpecHead){
             ch = getchar();
         }
         current->name[size] = '\0';
-        current->area = SelectedArea;
+        current->area = (char *)malloc(sizeof(*(SelectedArea->name)));
+        strcpy(current->area, SelectedArea->name);
         current->next = NULL;
     }
 }
@@ -220,7 +488,7 @@ void deleteSpec(areaNode *SelectedArea, specNode **SpecHead){
     }
 }
 
-void menuSpec(areaNode *SelectedArea, specNode **SpecHead){
+void menuSpec(areaNode *SelectedArea, specNode **SpecHead, actvNode *ActvHead){
     int command = -1;
     specNode *selectedSpec = NULL;
 
@@ -234,7 +502,7 @@ void menuSpec(areaNode *SelectedArea, specNode **SpecHead){
             specNode *current = *SpecHead;
 
             while(current != NULL){
-                if(current->area == SelectedArea){
+                if(strcmp(current->area, SelectedArea->name) == 0){
                     printf("%s\n-----------------\n", current->name);
                     current = current->next;
 
@@ -253,6 +521,7 @@ void menuSpec(areaNode *SelectedArea, specNode **SpecHead){
         printf("(2) editar especialização\n");
         printf("(3) selecionar especialização\n");
         printf("(4) deletar especialização\n");
+        printf("(5) ver atividades de uma especialização\n");
         scanf("%d", &command);
 
         switch(command){
@@ -285,6 +554,14 @@ void menuSpec(areaNode *SelectedArea, specNode **SpecHead){
         case 4:
             printf("\033[H\033[2J");
             deleteSpec(SelectedArea, SpecHead);
+            printf("\033[H\033[2J");
+            break;
+
+        case 5:
+            printf("\033[H\033[2J");
+            selectedSpec = selectSpec(SelectedArea, *SpecHead, selectedSpec);
+            printf("\033[H\033[2J");
+            menuActv(selectedSpec, &ActvHead);
             printf("\033[H\033[2J");
             break;
 
@@ -454,9 +731,10 @@ void deleteArea(areaNode **AreaHead){
     }
 }
 
-void menuArea(areaNode *AreaHead, specNode *SpecHead){
+void menuArea(areaNode *AreaHead, specNode *SpecHead, actvNode *ActvHead){
     int command = -1;
     areaNode *selectedArea = NULL;
+    printf("\033[H\033[2J");
 
     while(command != 0){
         if(AreaHead == NULL){
@@ -514,7 +792,7 @@ void menuArea(areaNode *AreaHead, specNode *SpecHead){
             printf("\033[H\033[2J");
             selectedArea = selectArea(AreaHead, selectedArea);
             printf("\033[H\033[2J");
-            menuSpec(selectedArea, &SpecHead);
+            menuSpec(selectedArea, &SpecHead, ActvHead);
             printf("\033[H\033[2J");
             break;
 
@@ -529,8 +807,9 @@ int main()
 
     areaNode *currentArea = NULL, *AreaHead = NULL, *selectedArea = NULL;
     specNode *currentSpec = NULL, *SpecHead = NULL, *selectedSpec = NULL;
+    actvNode *currentActiv = NULL, *ActvHead = NULL, *selectedActiv = NULL;
 
-    menuArea(AreaHead, SpecHead);
+    menuArea(AreaHead, SpecHead, ActvHead);
 
     specNode * c = SpecHead;
     areaNode * d = AreaHead;
