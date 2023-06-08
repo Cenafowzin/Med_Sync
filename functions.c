@@ -889,7 +889,6 @@ void salvarStructUser(const StructUser* user) {
     fprintf(arquivo, "Endereco: %s\n", user->endereco);
     fprintf(arquivo, "Senha: %s\n", user->senha);
     fprintf(arquivo, "Area: %s\n", user->area);
-
     fprintf(arquivo, "Especializacoes:\n");
     char** especializacao = user->especializacao;
     while (*especializacao != NULL) {
@@ -968,6 +967,8 @@ void give_feedback(){
 
 //ÁREA DE DIEGO:
 
+// Avaliar residente
+// Selecionar residencia
 specNode *selectSpec(areaNode *SelectedArea, specNode *SpecHead, specNode *PrevSelected){
 
     if(SelectedArea == NULL){
@@ -1032,6 +1033,3 @@ specNode *selectSpec(areaNode *SelectedArea, specNode *SpecHead, specNode *PrevS
         return current;
     }
 }
-
-
-
