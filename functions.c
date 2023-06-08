@@ -968,3 +968,70 @@ void give_feedback(){
 
 //ÁREA DE DIEGO:
 
+specNode *selectSpec(areaNode *SelectedArea, specNode *SpecHead, specNode *PrevSelected){
+
+    if(SelectedArea == NULL){
+        printf("Nenhuma area selecionada");
+        return NULL;
+    }
+
+    if (SpecHead == NULL){
+        printf("Não existe nenhuma especialização\n-----------------\n");
+        return NULL;
+
+    }else{
+        int spec, count = 0;
+        specNode *current = SpecHead;
+
+        printf("(%d) voltar\n-----------------\n", count);
+        count++;
+
+        while(current != NULL){
+
+            if(strcmp(current->area, SelectedArea->name) == 0){
+                printf("(%d) %s\n-----------------\n", count, current->name);
+                current = current->next;
+                count++;
+            }else{
+                current = current->next;
+
+            }
+        }
+
+        printf("Digite o numero da especialização: ");
+        scanf("%d", &spec);
+
+        if (spec == 0){
+            if(PrevSelected != NULL){
+                return PrevSelected;
+            }
+            return NULL;
+
+        }
+
+        if(spec > count || spec < 0){
+            printf("Opção inválida\n");
+            return NULL;
+        }
+
+        current = SpecHead;
+        count = 1;
+
+        while(count <= spec){
+            if(count == spec && strcmp(current->area, SelectedArea->name) == 0){
+                return current;
+
+            }else if(strcmp(current->area, SelectedArea->name) == 0){
+                current = current->next;
+                count++;
+            }else{
+                current = current->next;
+            }
+        }
+
+        return current;
+    }
+}
+
+
+
