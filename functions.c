@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include "functions.h"
+#include "functions.h"
 
 //aREA DE RODRIGO:
 
@@ -1079,17 +1079,6 @@ int main()
 
 //AREA DE FLAVIO:
 /*dados do usuario*/
-typedef struct {
-    int permissao;
-    char* nome;
-    char* email;
-    int cpf;
-    int celular;
-    char* endereco;
-    char senha[21];
-    char* area;
-    char** especializacao;
-} StructUser;
 
 /*funcao para alocar memoria para criar espacos para cadastro*/
 StructUser* criarCadastroLogin(StructUser* cadastro) {
@@ -1124,12 +1113,11 @@ void liberarCadastroLogin(StructUser* cadastro) {
 }
 /*receber dados do usuario e salvar no txt*/
 void salvarStructUser(const StructUser* user) {
-    FILE* arquivo = fopen("dados.txt", "w");
+    FILE* arquivo = fopen("dados.txt", "a");
     if (arquivo == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         return;
     }
-
     fprintf(arquivo, "Permissao: %d\n", user->permissao);
     fprintf(arquivo, "Nome: %s\n", user->nome);
     fprintf(arquivo, "Email: %s\n", user->email);
@@ -1140,65 +1128,110 @@ void salvarStructUser(const StructUser* user) {
     fprintf(arquivo, "Area: %s\n", user->area);
     fprintf(arquivo, "Especializacoes:\n");
     char** especializacao = user->especializacao;
-    while (*especializacao != NULL) {
+    do {
         fprintf(arquivo, "- %s\n", *especializacao);
         especializacao++;
-    }
+    } while (*especializacao != NULL);
 
     fclose(arquivo);
     
 }
 /*fazer login*/
-StructUser* consultarUsuario(const char* email, const char* senha) {
+int fazerLogin(const char* email, const char* senha) {
     FILE* arquivo = fopen("dados.txt", "r");
     if (arquivo == NULL) {
         printf("Erro ao abrir o arquivo.\n");
-        return NULL;
+        return 0;
     }
-
-    StructUser* user;
-    criarCadastroLogin(user);
-
     char linha[256];
+    int emailEncontrado = 0;
     while (fgets(linha, sizeof(linha), arquivo)) {
-        char* valorEmail;
         if (strncmp(linha, "Email: ", 7) == 0) {
-            valorEmail = linha + 7;
-            valorEmail[strlen(valorEmail) - 1] = '\0'; // Remover o caractere de nova linha
-        }
-
-        if  (strncmp(linha, "Senha: ", 7) == 0) {
-            char* valorSenha = linha + 7;
-            valorSenha[strlen(valorSenha) - 1] = '\0'; // Remover o caractere de nova linha
-            if ((strcmp(valorSenha, senha) != 0)||(strcmp(valorEmail, email) != 0)) {
-                // Senha nao corresponde, avancar para a proxima linha
-                printf("E-mail ou senha estao incorretos.\n");
-                fclose(arquivo);
-                return NULL;
+            char* valorEmail = linha + 7;
+            valorEmail[strlen(valorEmail) - 1] = '\0';
+            if (strcmp(valorEmail, email) == 0) {
+                emailEncontrado = 1;
             }
         }
-
-        // Preencher os outros campos do usuario
-        if (strncmp(linha, "Permissao: ", 11) == 0) {
-            sscanf(linha, "Permissao: %d", &(user->permissao));
-        } else if (strncmp(linha, "Nome: ", 6) == 0) {
-            sscanf(linha, "Nome: %[^\n]", user->nome);
-        } else if (strncmp(linha, "CPF: ", 5) == 0) {
-            sscanf(linha, "CPF: %d", &(user->cpf));
-        } else if (strncmp(linha, "Celular: ", 9) == 0) {
-            sscanf(linha, "Celular: %d", &(user->celular));
-        } else if (strncmp(linha, "Endereco: ", 10) == 0) {
-            sscanf(linha, "Endereco: %[^\n]", user->endereco);
-        } else if (strncmp(linha, "Senha: ", 7) == 0) {
-            sscanf(linha, "Senha: %20[^\n]", user->senha);
-        } else if (strncmp(linha, "Area: ", 6) == 0) {
-            sscanf(linha, "Area: %[^\n]", user->area);
+        if (emailEncontrado==1 && strncmp(linha, "Senha: ", 7) == 0) {
+            char* valorSenha = linha + 7;
+            valorSenha[strlen(valorSenha) - 1] = '\0';
+            if (strcmp(valorSenha, senha) == 0) {
+                fclose(arquivo);
+                return 1; // Login válido
+            } else {
+                fclose(arquivo);
+                printf("Senha incorreta\n");
+                return 0; // Senha incorreta
+            }
         }
     }
     fclose(arquivo);
-
-    return user;
+    return 0; // E-mail não encontrado
 }
+/*cadastrar funcionário*/
+void cadastrarNovoUsuario() {
+    char email[100];
+    char senha[20];
+
+    printf("Digite seu email: ");
+    scanf("%s", email);
+
+    printf("Digite sua senha: ");
+    scanf("%s", senha);
+
+    int loginValido = fazerLogin(email, senha);
+    if (loginValido) {
+        StructUser* user = fazerLogin(email, senha);
+        if (user != NULL && user->permissao == 0) {
+            // Cadastrar novo usuário
+            StructUser* novoUsuario = criarCadastroLogin(NULL);
+
+            // Preencher os dados do novo usuário
+            printf("Digite os dados do novo usuário:\n");
+            printf("Nome: ");
+            scanf(" %[^\n]s", novoUsuario->nome);  // Corrigido para aceitar espaços no nome
+            printf("CPF: ");
+            scanf("%d", &(novoUsuario->cpf));
+            printf("Celular: ");
+            scanf("%d", &(novoUsuario->celular));
+            printf("Endereço: ");
+            scanf(" %[^\n]s", novoUsuario->endereco);  // Corrigido para aceitar espaços no endereço
+            printf("Senha: ");
+            scanf(" %[^\n]s", novoUsuario->senha);  // Corrigido para aceitar espaços na senha
+            printf("Área: ");
+            scanf(" %[^\n]s", novoUsuario->area);  // Corrigido para aceitar espaços na área
+
+            // Solicitar especializações
+            int i = 0;
+            while (1) {
+                printf("Especialização %d (ou digite 'FIM' para finalizar): ", i + 1);
+                char especializacao[100];
+                scanf(" %[^\n]s", especializacao);  // Corrigido para aceitar espaços nas especializações
+                if (strcmp(especializacao, "FIM") == 0) {
+                    break;
+                }
+                novoUsuario->especializacao[i] = malloc(sizeof(char) * 100);
+                strcpy(novoUsuario->especializacao[i], especializacao);
+                i++;
+            }
+
+            // Salvar novo usuário no arquivo
+            salvarStructUser(novoUsuario);
+
+            // Liberar memória
+            liberarCadastroLogin(novoUsuario);
+
+            printf("Novo usuário cadastrado com sucesso!\n");
+        } else {
+            printf("Permissão insuficiente para cadastrar novo usuário.\n");
+        }
+        liberarCadastroLogin(user);
+    } else {
+        printf("Login inválido.\n");
+    }
+}
+
 
 
 
