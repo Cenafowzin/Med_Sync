@@ -26,20 +26,12 @@ typedef struct actvNode{
 
 typedef struct questForm{
     int type;
-    char *activity;//FAZ A LIGAÇÃO ENTRE PERGUNTA E ATIVIDADE
+    char *activity;
     char *quest;
     int nAlts;
     char **alternatives;
     struct questForm *next;
 } questForm;
-
-typedef struct questFormResp{
-    char *activity;
-    char *quest;
-    char *answer;
-    int *alternative;
-    struct questFormResp *next;
-} questFormResp;
 
 // ATIVIDADE ---------------------------------------------------------------
 
@@ -268,7 +260,7 @@ void createQuestForm(actvNode *SelectedActiv, questForm **FormHead, questForm **
     printf("Selecione o tipo de pergunta:\n");
     scanf("%d", &type);
 
-    if(type < 0 || type > 1){
+    if(type < 0 && type > 1){
         printf("Opcao invalida");
         return;
     }
@@ -434,6 +426,7 @@ void menuForm(actvNode *SelectedActiv, questForm **FormHead, questForm **FormTai
                 
             }
         }
+
 
         printf("Selecione uma acao para fazer:\n");
         printf("(0) voltar\n");
@@ -1076,7 +1069,8 @@ int main()
     return 0;
 }
 
-//aREA DE FLaVIO:
+//AREA DE FLAVIO:
+/*dados do usuario*/
 typedef struct {
     int permissao;
     char* nome;
@@ -1146,7 +1140,7 @@ void salvarStructUser(const StructUser* user) {
     fclose(arquivo);
     
 }
-
+/*fazer login*/
 StructUser* consultarUsuario(const char* email, const char* senha) {
     FILE* arquivo = fopen("dados.txt", "r");
     if (arquivo == NULL) {
@@ -1207,127 +1201,6 @@ void give_feedback(){
 
 
 //aREA DE VICTOR:
-
-void answerQuestForm(actvNode *SelectedActiv, questForm *FormHead, questFormResp **FormRespHead, questFormResp **FormRespTail){
-    char ch;
-    int type, alts, altResp, size;
-
-    if (FormHead==NULL){
-        return;
-    } else{
-        questForm *current = FormHead;
-        while(current != NULL){
-            if(strcmp(current->activity, SelectedActiv->name)==0){
-                printf("%s",current->quest);
-
-                if(current->type==1){//fechado
-                    for(int i=1; i< current->nAlts+1; i++){
-                        printf("[%d/ %s]\n", i, current->alternatives[i-1]);
-                    }
-                    printf("-----------------\n"); 
-
-                    if(*FormRespHead==NULL){
-                        *FormRespHead=(questFormResp*)malloc(sizeof(questFormResp));
-                        scanf("%d",&altResp);
-                        (*FormRespHead)->alternative = altResp;
-                        (*FormRespHead)->activity = (char*)malloc(sizeof(SelectedActiv->name));
-                        strcpy((*FormRespHead)->activity,SelectedActiv->name);
-                        (*FormRespHead)->quest = (char*)malloc(sizeof(current->quest));
-                        strcpy((*FormRespHead)->quest,current->quest);
-                        (*FormRespHead)->answer = NULL;
-                        (*FormRespHead)->next = NULL;
-                        *FormRespTail = *FormRespHead;
-
-
-                    }else{
-                        (*FormRespTail)->next=(questFormResp*)malloc(sizeof(questFormResp));
-                        *FormRespTail=(*FormRespTail)->next;
-                        scanf("%d",&altResp);
-                        (*FormRespTail)->alternative = altResp;
-                        (*FormRespTail)->activity = (char*)malloc(sizeof(SelectedActiv->name));
-                        strcpy((*FormRespTail)->activity,SelectedActiv->name);
-                        (*FormRespTail)->quest = (char*)malloc(sizeof(current->quest));
-                        strcpy((*FormRespTail)->quest,current->quest);
-                        (*FormRespTail)->answer = NULL;
-                        (*FormRespTail)->next = NULL;
-
-                    }
-
-                }else{//se for aberto
-
-                    if(*FormRespHead==NULL){
-                        *FormRespHead=(questFormResp*)malloc(sizeof(questFormResp));
-                        
-                        size = 0;
-
-                        printf("Digite a resposta:\n");
-                        ch = getchar();
-
-                        (*FormRespHead)->answer = (char *)malloc(sizeof(char));
-                        (*FormRespHead)->answer[size] = ch;
-
-                        while(ch != '\n'){
-                            (*FormRespHead)->answer = (char *)realloc(((*FormRespHead)->answer), (size + 2) * sizeof(char));
-                            (*FormRespHead)->answer[size] = ch;
-                            size++;
-
-                            ch = getchar();
-                        }
-                        (*FormRespHead)->answer[size] = '\0';
-
-                        
-                        (*FormRespHead)->alternative = -1;
-                        (*FormRespHead)->activity = (char*)malloc(sizeof(SelectedActiv->name));
-                        strcpy((*FormRespHead)->activity,SelectedActiv->name);
-                        (*FormRespHead)->quest = (char*)malloc(sizeof(current->quest));
-                        strcpy((*FormRespHead)->quest,current->quest);
-                        (*FormRespHead)->next = NULL;
-                        *FormRespTail = *FormRespHead;
-
-
-                    }else{
-                        (*FormRespTail)->next=(questFormResp*)malloc(sizeof(questFormResp));
-                        *FormRespTail=(*FormRespTail)->next;
-
-                        size = 0;
-
-                        printf("Digite a resposta:\n");
-                        ch = getchar();
-
-                        (*FormRespTail)->answer = (char *)malloc(sizeof(char));
-                        (*FormRespTail)->answer[size] = ch;
-
-                        while(ch != '\n'){
-                            (*FormRespTail)->answer = (char *)realloc(((*FormRespTail)->answer), (size + 2) * sizeof(char));
-                            (*FormRespTail)->answer[size] = ch;
-                            size++;
-
-                            ch = getchar();
-                        }
-                        (*FormRespHead)->answer[size] = '\0';
-
-                        (*FormRespTail)->alternative = -1;
-                        (*FormRespTail)->activity = (char*)malloc(sizeof(SelectedActiv->name));
-                        strcpy((*FormRespTail)->activity,SelectedActiv->name);
-                        (*FormRespTail)->quest = (char*)malloc(sizeof(current->quest));
-                        strcpy((*FormRespTail)->quest,current->quest);
-                        (*FormRespTail)->next = NULL;
-
-                    }
-
-                }
-
-                current = current->next;
-            }else{
-                current = current->next;
-            }
-
-        }
-    }
-
-
-
-}
 
 //aREA DE JOaO:
 
