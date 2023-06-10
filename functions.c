@@ -302,7 +302,7 @@ void createQuestForm(actvNode *SelectedActiv, questForm **FormHead, questForm **
             return;
         
         }else{
-            printf("Digite o número de alternativas:\n");
+            printf("Digite o numero de alternativas:\n");
             scanf("%d", &alts);
             getchar();
 
