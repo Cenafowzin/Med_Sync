@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "functions.h"
+//#include "functions.h"
 
 //aREA DE RODRIGO:
 
@@ -37,7 +37,7 @@ typedef struct questFormResp{
     char *activity;
     char *quest;
     char *answer;
-    int *alternative;
+    int alternative;
     struct questFormResp *next;
 } questFormResp;
 
@@ -455,8 +455,12 @@ void menuForm(actvNode *SelectedActiv, questForm **FormHead, questForm **FormTai
     }
 
 }
+
+void answerQuestForm(actvNode *SelectedActiv, questForm *FormHead, questFormResp **FormRespHead, questFormResp **FormRespTail);
+
 /*menu da atividade*/
-void menuActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail, questForm *FormHead, questForm *FormTail){
+void menuActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail, questForm *FormHead, questForm *FormTail,
+ questFormResp *QuestRespHead, questFormResp *QuestRespTail){
     int command = -1;
     actvNode *selectedActv = NULL;
 
@@ -490,13 +494,13 @@ void menuActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail, 
         printf("(3) selecionar atividade\n");
         printf("(4) deletar atividade\n");
         scanf("%d", &command);
+        getchar();
 
         switch(command){
         case 0:
             return;
             break;
         case 1:
-            getchar();
             printf("\033[H\033[2J");
             createActv(SelectedSpec, ActvHead, ActvTail);
             printf("\033[H\033[2J");
@@ -530,6 +534,15 @@ void menuActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail, 
             menuForm(selectedActv, &FormHead, &FormTail);
             printf("\033[H\033[2J");
             break;
+
+        case 6:
+            selectedActv = selectActv(SelectedSpec, *ActvHead, selectedActv);
+            printf("\033[H\033[2J");
+            getchar();
+            answerQuestForm(selectedActv, FormHead, &QuestRespHead, &QuestRespTail);
+            printf("\033[H\033[2J");
+            break;
+
         }
     }
 
@@ -734,7 +747,7 @@ void deleteSpec(areaNode *SelectedArea, specNode **SpecHead, specNode **SpecTail
 }
 /*menu de especialização*/
 void menuSpec(areaNode *SelectedArea, specNode **SpecHead, specNode **SpecTail, actvNode *ActvHead, actvNode *ActvTail,
- questForm *FormHead, questForm *FormTail){
+ questForm *FormHead, questForm *FormTail, questFormResp *QuestRespHead, questFormResp *QuestRespTail){
     int command = -1;
     specNode *selectedSpec = NULL;
 
@@ -807,7 +820,7 @@ void menuSpec(areaNode *SelectedArea, specNode **SpecHead, specNode **SpecTail, 
             printf("\033[H\033[2J");
             selectedSpec = selectSpec(SelectedArea, *SpecHead, selectedSpec);
             printf("\033[H\033[2J");
-            menuActv(selectedSpec, &ActvHead, &ActvTail, FormHead, FormTail);
+            menuActv(selectedSpec, &ActvHead, &ActvTail, FormHead, FormTail, QuestRespHead, QuestRespTail);
             printf("\033[H\033[2J");
             break;
 
@@ -977,7 +990,7 @@ void deleteArea(areaNode **AreaHead, areaNode **AreaTail){
 }
 /*menu de área*/
 void menuArea(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead, specNode *SpecTail,
- actvNode *ActvHead, actvNode *ActvTail, questForm *FormHead, questForm *FormTail){
+ actvNode *ActvHead, actvNode *ActvTail, questForm *FormHead, questForm *FormTail, questFormResp *QuestRespHead, questFormResp *QuestRespTail){
     int command = -1;
     areaNode *selectedArea = NULL;
     //printf("\033[H\033[2J");
@@ -1038,7 +1051,7 @@ void menuArea(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead, specNo
             printf("\033[H\033[2J");
             selectedArea = selectArea(AreaHead, selectedArea);
             printf("\033[H\033[2J");
-            menuSpec(selectedArea, &SpecHead, &SpecTail, ActvHead, ActvTail, FormHead, FormTail);
+            menuSpec(selectedArea, &SpecHead, &SpecTail, ActvHead, ActvTail, FormHead, FormTail, QuestRespHead, QuestRespTail);
             printf("\033[H\033[2J");
             break;
 
@@ -1056,8 +1069,9 @@ int main()
     actvNode *currentActiv = NULL, *ActvHead = NULL, *ActvTail = NULL, *selectedActiv = NULL;
     questForm *currentQuest = NULL, *ActvFormtHead = NULL, *ActvFormtTail = NULL, *selectedQuest = NULL;
     questForm *PrecAvtHead = NULL, *PrecAvTail = NULL;
+    questFormResp *QuestRespHead = NULL, *QuestRespTail = NULL;
 
-    menuArea(AreaHead, AreaTail, SpecHead, SpecTail, ActvHead, ActvTail, ActvFormtHead, ActvFormtTail);
+    menuArea(AreaHead, AreaTail, SpecHead, SpecTail, ActvHead, ActvTail, ActvFormtHead, ActvFormtTail, QuestRespHead, QuestRespTail);
 
     specNode * c = SpecHead;
     areaNode * d = AreaHead;
@@ -1077,10 +1091,19 @@ int main()
     return 0;
 }
 
-<<<<<<< HEAD
 //AREA DE FLAVIO:
 /*dados do usuario*/
-
+typedef struct {
+    int permissao;//0=gerencia, 1=preceptor, 2=residente
+    char* nome;
+    char* email;
+    int cpf;
+    int celular;
+    char* endereco;
+    char senha[21];
+    char* area;
+    char** especializacao;
+} StructUser;
 /*funcao para alocar memoria para criar espacos para cadastro*/
 StructUser* criarCadastroLogin(StructUser* cadastro) {
     
@@ -1241,19 +1264,7 @@ void cadastrarNovoUsuario() {
 }
 
 
-
-
-void give_feedback(){
-
-}
-
-
-
 //aREA DE VICTOR:
-=======
-//aREA DE VICTOR e FLAVIO.:
-
->>>>>>> 64e5dd1 (otmizando)
 
 void answerQuestForm(actvNode *SelectedActiv, questForm *FormHead, questFormResp **FormRespHead, questFormResp **FormRespTail){
     char ch;
@@ -1276,6 +1287,7 @@ void answerQuestForm(actvNode *SelectedActiv, questForm *FormHead, questFormResp
                     if(*FormRespHead==NULL){
                         *FormRespHead=(questFormResp*)malloc(sizeof(questFormResp));
                         scanf("%d",&altResp);
+                        getchar();
                         (*FormRespHead)->alternative = altResp;
                         (*FormRespHead)->activity = (char*)malloc(sizeof(SelectedActiv->name));
                         strcpy((*FormRespHead)->activity,SelectedActiv->name);
@@ -1290,6 +1302,7 @@ void answerQuestForm(actvNode *SelectedActiv, questForm *FormHead, questFormResp
                         (*FormRespTail)->next=(questFormResp*)malloc(sizeof(questFormResp));
                         *FormRespTail=(*FormRespTail)->next;
                         scanf("%d",&altResp);
+                        getchar();
                         (*FormRespTail)->alternative = altResp;
                         (*FormRespTail)->activity = (char*)malloc(sizeof(SelectedActiv->name));
                         strcpy((*FormRespTail)->activity,SelectedActiv->name);
@@ -1309,6 +1322,7 @@ void answerQuestForm(actvNode *SelectedActiv, questForm *FormHead, questFormResp
 
                         printf("Digite a resposta:\n");
                         ch = getchar();
+                        printf("[[%c]]\n", ch);
 
                         (*FormRespHead)->answer = (char *)malloc(sizeof(char));
                         (*FormRespHead)->answer[size] = ch;
