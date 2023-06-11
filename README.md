@@ -45,5 +45,5 @@ Trata-se de um sistema de gerenciamento de cursos de residência, feito sob enco
 
 - Registrar atividade
 
-<a href="https://drive.google.com/file/d/14g0zjgaBcAKlbPHYevz7pM9lU7YJaX_w/view?usp=sharing"><img src="https://icon-library.com/images/img-icon/img-icon-11.jpg" alt="Img" style="width:43px;height:60px;"></a>
+<a href="https://drive.google.com/file/d/14g0zjgaBcAKlbPHYevz7pM9lU7YJaX_w/view?usp=sharing"><img src="https://icon-library.com/images/img-icon/img-icon-11.jpg" alt="Img" style="width:60px;height:48px;"></a>
 
