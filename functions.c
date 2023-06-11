@@ -1369,6 +1369,71 @@ void answerQuestForm(actvNode *SelectedActiv, questForm *FormHead, questFormResp
 
 //aREA DE DIEGO:
 
-// Avaliar residente
-// Selecionar residencia
+typedef struct {
+    char* nome;
+    int especializacao;
+    int avaliacao;
+} Residente;
 
+typedef struct {
+    char* especializacao;
+    Residente* residentes;
+    int numResidentes;
+} Especializacao;
+
+Especializacao* criarEspecializacoes(int numEspecializacoes) {
+    Especializacao* especializacoes = malloc(sizeof(Especializacao) * numEspecializacoes);
+    for (int i = 0; i < numEspecializacoes; i++) {
+        especializacoes[i].especializacao = malloc(sizeof(char) * 100);
+        printf("Digite o nome da especialização %d: ", i + 1);
+        scanf("%s", especializacoes[i].especializacao);
+        especializacoes[i].residentes = NULL;
+        especializacoes[i].numResidentes = 0;
+    }
+    return especializacoes;
+}
+
+void liberarEspecializacoes(Especializacao* especializacoes, int numEspecializacoes) {
+    for (int i = 0; i < numEspecializacoes; i++) {
+        free(especializacoes[i].especializacao);
+        if (especializacoes[i].residentes != NULL) {
+            free(especializacoes[i].residentes);
+        }
+    }
+    free(especializacoes);
+}
+
+void selecionarEspecializacao(Especializacao* especializacoes, int numEspecializacoes) {
+    printf("Especializações disponíveis:\n");
+    for (int i = 0; i < numEspecializacoes; i++) {
+        printf("%d. %s\n", i + 1, especializacoes[i].especializacao);
+    }
+    int opcao;
+    printf("Selecione uma especialização: ");
+    scanf("%d", &opcao);
+    if (opcao >= 1 && opcao <= numEspecializacoes) {
+        Especializacao selecionada = especializacoes[opcao - 1];
+        printf("Especialização selecionada: %s\n", selecionada.especializacao);
+
+        // Ler o documento com os alunos da especialização selecionada
+        char nomeDocumento[100];
+        printf("Digite o nome do documento com os alunos da especialização: ");
+        scanf("%s", nomeDocumento);
+
+        FILE* arquivo = fopen(nomeDocumento, "r");
+        if (arquivo == NULL) {
+            printf("Erro ao abrir o arquivo.\n");
+            return;
+        }
+
+        // Ler e exibir os alunos da especialização
+        char linha[256];
+        while (fgets(linha, sizeof(linha), arquivo)) {
+            printf("Aluno: %s", linha);
+        }
+
+        fclose(arquivo);
+    } else {
+        printf("Opção inválida.\n");
+    }
+}
