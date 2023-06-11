@@ -10,20 +10,20 @@ typedef struct areaNode{
     char *name;
     struct areaNode *next;
 } areaNode;
-
+/*especializacao*/
 typedef struct specNode{
     char *name;
     char *area;
     struct specNode *next;
 } specNode;
-
+/*atividade*/
 typedef struct actvNode{
     char *name;
     int mod;
     char *spec;
     struct actvNode *next;
 } actvNode;
-
+/*questão do formulário*/
 typedef struct questForm{
     int type;
     char *activity;//FAZ A LIGAÇÃO ENTRE PERGUNTA E ATIVIDADE
@@ -32,7 +32,7 @@ typedef struct questForm{
     char **alternatives;
     struct questForm *next;
 } questForm;
-
+/*resposta da questão do formulário*/
 typedef struct questFormResp{
     char *activity;
     char *quest;
@@ -42,7 +42,7 @@ typedef struct questFormResp{
 } questFormResp;
 
 // ATIVIDADE ---------------------------------------------------------------
-
+/*seleciona atividade*/
 actvNode *selectActv(specNode *SelectedSpec, actvNode *ActvHead, actvNode *PrevSelected){
 
     if(SelectedSpec == NULL){
@@ -106,7 +106,7 @@ actvNode *selectActv(specNode *SelectedSpec, actvNode *ActvHead, actvNode *PrevS
         return current;
     }
 }
-
+/*cria atividade*/
 void createActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail){
     char ch;
     int mod;
@@ -181,7 +181,7 @@ void createActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail
         (*ActvTail)->next = NULL;
     }
 }
-
+/*edita atividade*/
 void editActv(specNode *SelectedSpec, actvNode **ActvHead){
     
     actvNode *selectedActiv = NULL;
@@ -217,7 +217,7 @@ void editActv(specNode *SelectedSpec, actvNode **ActvHead){
         
     }
 }
-
+/*apaga atividade*/
 void deleteActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail){
     actvNode *selectedActiv = NULL, *current = *ActvHead, *temp = NULL;
 
@@ -253,7 +253,7 @@ void deleteActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail
 }
 
 //FORMULARIO ---------------------------------------------------------------
-
+/*cria questão no formulário*/
 void createQuestForm(actvNode *SelectedActiv, questForm **FormHead, questForm **FormTail){
     char ch;
     int type, alts;
@@ -397,11 +397,11 @@ void createQuestForm(actvNode *SelectedActiv, questForm **FormHead, questForm **
         }
     }
 }
-
+/*edita questão no formulário*/
 void editQuestForm(){
 
 }
-
+/*menu do formulário*/
 void menuForm(actvNode *SelectedActiv, questForm **FormHead, questForm **FormTail){
     int command = -1;
     questForm *selectedQuest = NULL;
@@ -455,7 +455,7 @@ void menuForm(actvNode *SelectedActiv, questForm **FormHead, questForm **FormTai
     }
 
 }
-
+/*menu da atividade*/
 void menuActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail, questForm *FormHead, questForm *FormTail){
     int command = -1;
     actvNode *selectedActv = NULL;
@@ -538,7 +538,7 @@ void menuActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail, 
 
 
 // ESPECIALIZACAO ---------------------------------------------------------------
-
+/*seleciona especialidade*/
 specNode *selectSpec(areaNode *SelectedArea, specNode *SpecHead, specNode *PrevSelected){
 
     if(SelectedArea == NULL){
@@ -603,7 +603,7 @@ specNode *selectSpec(areaNode *SelectedArea, specNode *SpecHead, specNode *PrevS
         return current;
     }
 }
-
+/*cria especialidade*/
 void createSpec(areaNode *SelectedArea, specNode **SpecHead, specNode **SpecTail){
 
     char ch;
@@ -663,7 +663,7 @@ void createSpec(areaNode *SelectedArea, specNode **SpecHead, specNode **SpecTail
         (*SpecTail)->next = NULL;
     }
 }
-
+/*edita especialidade*/
 void editSpec(areaNode *SelectedArea, specNode **SpecHead){
     
     specNode *selectedSpec = NULL;
@@ -699,7 +699,7 @@ void editSpec(areaNode *SelectedArea, specNode **SpecHead){
         
     }
 }
-
+/*apaga especialidade*/
 void deleteSpec(areaNode *SelectedArea, specNode **SpecHead, specNode **SpecTail){
     specNode *selectedSpec = NULL, *current = *SpecHead, *temp = NULL;
 
@@ -732,7 +732,7 @@ void deleteSpec(areaNode *SelectedArea, specNode **SpecHead, specNode **SpecTail
 
     }
 }
-
+/*menu de especialização*/
 void menuSpec(areaNode *SelectedArea, specNode **SpecHead, specNode **SpecTail, actvNode *ActvHead, actvNode *ActvTail,
  questForm *FormHead, questForm *FormTail){
     int command = -1;
@@ -817,7 +817,7 @@ void menuSpec(areaNode *SelectedArea, specNode **SpecHead, specNode **SpecTail, 
 }
 
 // AREA -------------------------------------------------------------------------
-
+/*selecionar área*/
 areaNode *selectArea(areaNode *AreaHead, areaNode *PrevSelected){
 
     if (AreaHead == NULL){
@@ -862,7 +862,7 @@ areaNode *selectArea(areaNode *AreaHead, areaNode *PrevSelected){
         return current;
     }
 }
-
+/*criar área*/
 void createArea(areaNode **AreaHead, areaNode **AreaTail){
     printf("Digite o nome da area que deseja criar:\n");
     char ch = getchar();
@@ -909,7 +909,7 @@ void createArea(areaNode **AreaHead, areaNode **AreaTail){
         (*AreaTail)->next = NULL;
     }
 }
-
+/*editar área*/
 void editArea(areaNode **AreaHead){
     
     areaNode *selectedArea = NULL;
@@ -943,7 +943,7 @@ void editArea(areaNode **AreaHead){
         
     }
 }
-
+/*apagar área*/
 void deleteArea(areaNode **AreaHead, areaNode **AreaTail){
     areaNode *selectedArea = NULL, *current = *AreaHead, *temp = NULL;
 
@@ -975,7 +975,7 @@ void deleteArea(areaNode **AreaHead, areaNode **AreaTail){
         *AreaTail = NULL;
     }
 }
-
+/*menu de área*/
 void menuArea(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead, specNode *SpecTail,
  actvNode *ActvHead, actvNode *ActvTail, questForm *FormHead, questForm *FormTail){
     int command = -1;
