@@ -57,7 +57,7 @@ O objetivo deste projeto é fornecer uma solução abrangente e eficiente para g
 
 ## Equipe
 
-Desenvolvedores:<br/>
+- Desenvolvedores:<br/>
 Diego Arruda - dca2@cesar.school<br/> 
 Flávio Romero - frssm@cesar.school<br/> 
 Henrique Roma - hrm@cesar.school<br/>
@@ -65,7 +65,7 @@ João Henrique - jhml@cesar.school<br/>
 Rodrigo Dubeux - rdmo@cesar.school<br/>
 Victor Hora - vht@cesar.school
 
-Designers:<br/>
+- Designers:<br/>
 Clarice Medeiros - cmc@cesar.school<br/> 
 Maria Clara Miranda - mcbm2@cesar.school<br/> 
 Maria Clara Moraes - mcfm@cesar.school<br/>
