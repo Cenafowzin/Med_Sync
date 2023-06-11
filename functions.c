@@ -1151,6 +1151,10 @@ int fazerLogin(const char* email, const char* senha) {
             valorEmail[strlen(valorEmail) - 1] = '\0';
             if (strcmp(valorEmail, email) == 0) {
                 emailEncontrado = 1;
+            }else{
+            fclose(arquivo);
+            printf("Usuário incorreto");
+            return 0;
             }
         }
         if (emailEncontrado==1 && strncmp(linha, "Senha: ", 7) == 0) {
