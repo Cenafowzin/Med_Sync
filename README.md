@@ -1,7 +1,8 @@
 # Med_Sync
 ![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=flat-square)
 
-Trata-se de um sistema de gerenciamento de cursos de residência, feito sob encomenda para o Hospital das Clínicas, vinculado à Universidade Federal de Pernambuco, baseado na linguagem C. É requisito da disciplina Projetos 2 da faculdade Cesar School.
+Trata-se de um sistema de gerenciamento de cursos de residência, feito sob encomenda para o Hospital das Clínicas, vinculado à Universidade Federal de Pernambuco, baseado na linguagem C. Esse projeto é requisito da disciplina Projetos 2 da faculdade Cesar School.
+Para mais informações, acesse nosso site https://sites.google.com/cesar.school/projetos2grupo8/
 
 ## Instruções para configuração do ambiente e contribuição
 
