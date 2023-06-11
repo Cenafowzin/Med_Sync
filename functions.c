@@ -1077,6 +1077,7 @@ int main()
     return 0;
 }
 
+<<<<<<< HEAD
 //AREA DE FLAVIO:
 /*dados do usuario*/
 
@@ -1249,6 +1250,10 @@ void give_feedback(){
 
 
 //aREA DE VICTOR:
+=======
+//aREA DE VICTOR e FLAVIO.:
+
+>>>>>>> 64e5dd1 (otmizando)
 
 void answerQuestForm(actvNode *SelectedActiv, questForm *FormHead, questFormResp **FormRespHead, questFormResp **FormRespTail){
     char ch;
