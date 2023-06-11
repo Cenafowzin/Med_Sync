@@ -50,6 +50,7 @@ StructUser* cadastrarLogin(const char* email, const char* senha);
 
 //ÁREA DE HENRIQUE:
 
+
 //ÁREA DE VICTOR:
 
 //ÁREA DE DIEGO:
