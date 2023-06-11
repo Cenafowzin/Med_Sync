@@ -2,7 +2,17 @@
 ![Badge em Desenvolvimento](http://img.shields.io/static/v1?label=STATUS&message=EM%20DESENVOLVIMENTO&color=GREEN&style=flat-square)
 
 Trata-se de um sistema de gerenciamento de cursos de residência, feito sob encomenda para o Hospital das Clínicas, vinculado à Universidade Federal de Pernambuco, baseado na linguagem C. Esse projeto é requisito da disciplina Projetos 2 dos cursos de Design e CiÊncias da Computação da faculdade Cesar School.
-Para mais informações, acesse nosso site https://sites.google.com/cesar.school/projetos2grupo8/
+Para mais informações, acesse nosso site clicando na imagem abaixo:
+
+<a href="https://sites.google.com/cesar.school/projetos2grupo8/"><img src="https://github.com/Cenafowzin/Med_Sync/blob/main/imagens/Meu%20projeto.png?raw=true" alt="devine" style="width:140px;height:100px;"></a>
+
+## Breve resumo do conteúdo do repositório
+
+Neste repositório temos o diagrama de arquitetura do nosso projeto, além de uma tabela no formato do Excel com a lista de funcionalidades do protótipo original. Também disponibilizamos a análise hierárquica das tarefas, que serviu de guia para que desenvolvêssemos nosso protótipo. Ao fim, temos as instruções para que possam possam configurar o ambiente e contribuir com esse projeto. 
+
+Quanto ao código, ele está em C, e está dividido em três arquivos, o "functions.c", "functions.h", e o "main.c". Os "functions" é a nossa biblioteca, onde fizemos as funções personalizadas para o bom funcionamento da nossa solução, onde o .h estão as estruturas e parâmetros das funções, enquanto o .c está o corpo dessas funções. O "main.c" é o esqueleto do nosso protótipo, onde nós organizamos as nossas funções de modo que ela possa entregar o que pretendemos.
+
+Para executar o MedSync, basta clicar no main.exe, que irá abrir um terminal e poderás navegar através de menus interativos, que funcionam ao digitar números para efetuar escolhas.
 
 ## Diagrama de arquitetura
 
