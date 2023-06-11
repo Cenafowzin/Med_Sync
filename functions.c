@@ -1367,16 +1367,14 @@ void answerQuestForm(actvNode *SelectedActiv, questForm *FormHead, questFormResp
 }
 
 
-//aREA DE JOaO:
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
+//aREA DE JOaO e Henrique:
 typedef struct {
     char login[50];
     char password[50];
     char nome[50];
     char cargo[50];
+    char area[50];
+    char especializacao[50];
 } Account;
 
 void save_account(Account account) {
@@ -1385,7 +1383,7 @@ void save_account(Account account) {
         printf("Erro ao abrir o arquivo.\n");
         exit(1);
     }
-    fprintf(file, "%s;%s;%s;%s\n", account.login, account.password, account.nome, account.cargo);
+    fprintf(file, "%s;%s;%s;%s;%s;%s\n", account.login, account.password, account.nome, account.cargo, account.area, account.especializacao);
     fclose(file);
 }
 
@@ -1415,7 +1413,9 @@ void create_account() {
     }
 
     printf("Digite o nome: ");
-    scanf("%s", account.nome);
+    getchar();  // Limpa o buffer do teclado
+    fgets(account.nome, sizeof(account.nome), stdin);
+    account.nome[strcspn(account.nome, "\n")] = '\0';  // Remove a quebra de linha no final
 
     do {
         printf("Digite o cargo (Preceptor, Gerente, Residente): ");
@@ -1425,13 +1425,33 @@ void create_account() {
         }
     } while (!valid_role(account.cargo));
 
+    printf("Digite a área: ");
+    scanf("%s", account.area);
+
+    printf("Digite a especialização: ");
+    scanf("%s", account.especializacao);
+
     save_account(account);
     printf("Conta criada com sucesso.\n");
 }
 
+int login_account(char* login, char* password) {
+    FILE *file = fopen("accounts.txt", "r");
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        exit(1);
+    }
+    Account account;
+    while (fscanf(file, "%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n", account.login, account.password, account.nome, account.cargo, account.area, account.especializacao) != EOF) {
+        if (strcmp(login, account.login) == 0 && strcmp(password, account.password) == 0) {
+            fclose(file);
+            return 1;
+        }
+    }
+    fclose(file);
+    return 0;
+}
 
-
-//aREA DE HENRIQUE:
 
 //aREA DE DIEGO:
 
