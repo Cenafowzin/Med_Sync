@@ -1370,9 +1370,91 @@ void answerQuestForm(actvNode *SelectedActiv, questForm *FormHead, questFormResp
 }
 
 
-//aREA DE JOaO:
+//aREA DE JOaO e Henrique:
+typedef struct {
+    char login[50];
+    char password[50];
+    char nome[50];
+    char cargo[50];
+    char area[50];
+    char especializacao[50];
+} Account;
 
-//aREA DE HENRIQUE:
+void save_account(Account account) {
+    FILE *file = fopen("accounts.txt", "a");
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        exit(1);
+    }
+    fprintf(file, "%s;%s;%s;%s;%s;%s\n", account.login, account.password, account.nome, account.cargo, account.area, account.especializacao);
+    fclose(file);
+}
+
+int valid_role(char *cargo) {
+    if (strcmp(cargo, "Preceptor") == 0) return 1;
+    if (strcmp(cargo, "Gerente") == 0) return 1;
+    if (strcmp(cargo, "Residente") == 0) return 1;
+    return 0;
+}
+
+void create_account() {
+    Account account;
+    char confirm_password[50];
+    printf("Cadastrando uma Conta:\n\n");
+    printf("Digite o login: ");
+    scanf("%s", account.login);
+
+    printf("Digite a senha: ");
+    scanf("%s", account.password);
+
+    printf("Confirme a senha: ");
+    scanf("%s", confirm_password);
+
+    if (strcmp(account.password, confirm_password) != 0) {
+        printf("As senhas não coincidem. Tente novamente.\n");
+        return;
+    }
+
+    printf("Digite o nome: ");
+    getchar();  // Limpa o buffer do teclado
+    fgets(account.nome, sizeof(account.nome), stdin);
+    account.nome[strcspn(account.nome, "\n")] = '\0';  // Remove a quebra de linha no final
+
+    do {
+        printf("Digite o cargo (Preceptor, Gerente, Residente): ");
+        scanf("%s", account.cargo);
+        if (!valid_role(account.cargo)) {
+            printf("Cargo inválido. Tente novamente.\n");
+        }
+    } while (!valid_role(account.cargo));
+
+    printf("Digite a área: ");
+    scanf("%s", account.area);
+
+    printf("Digite a especialização: ");
+    scanf("%s", account.especializacao);
+
+    save_account(account);
+    printf("Conta criada com sucesso.\n");
+}
+
+int login_account(char* login, char* password) {
+    FILE *file = fopen("accounts.txt", "r");
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        exit(1);
+    }
+    Account account;
+    while (fscanf(file, "%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n", account.login, account.password, account.nome, account.cargo, account.area, account.especializacao) != EOF) {
+        if (strcmp(login, account.login) == 0 && strcmp(password, account.password) == 0) {
+            fclose(file);
+            return 1;
+        }
+    }
+    fclose(file);
+    return 0;
+}
+
 
 //aREA DE DIEGO:
 
