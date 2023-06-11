@@ -1368,32 +1368,11 @@ void answerQuestForm(actvNode *SelectedActiv, questForm *FormHead, questFormResp
 
 
 //aREA DE JOaO:
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 typedef struct {
-    char login[50];
-    char password[50];
-    char nome[50];
-    char cargo[50];
-} Account;
-
-void save_account(Account account) {
-    FILE *file = fopen("accounts.txt", "a");
-    if (file == NULL) {
-        printf("Erro ao abrir o arquivo.\n");
-        exit(1);
-    }
-    fprintf(file, "%s;%s;%s;%s\n", account.login, account.password, account.nome, account.cargo);
-    fclose(file);
-}
-
-int valid_role(char *cargo) {
-    if (strcmp(cargo, "Preceptor") == 0) return 1;
-    if (strcmp(cargo, "Gerente") == 0) return 1;
-    if (strcmp(cargo, "Residente") == 0) return 1;
-    return 0;
-}
-
-int main() {
-   typedef struct {
     char login[50];
     char password[50];
     char nome[50];
