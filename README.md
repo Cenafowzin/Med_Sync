@@ -4,29 +4,6 @@
 Trata-se de um sistema de gerenciamento de cursos de residência, feito sob encomenda para o Hospital das Clínicas, vinculado à Universidade Federal de Pernambuco, baseado na linguagem C. Esse projeto é requisito da disciplina Projetos 2 dos cursos de Design e CiÊncias da Computação da faculdade Cesar School.
 Para mais informações, acesse nosso site https://sites.google.com/cesar.school/projetos2grupo8/
 
-## Missão
-O objetivo deste projeto é fornecer uma solução abrangente e eficiente para gerenciamento de cursos de residência no Hospital das Clínicas, vinculado à Universidade Federal de Pernambuco. Com um conjunto completo de recursos para gestão de médicos, residentes e demais funcionários, além de gerenciar as diversas áreas e especializações, controle de atividades, acompanhamento de desempenho e análise de dados, o programa oferece uma solução acessível e confiável para a administração de hospitais que oferecem o curso de residência. Este programa é ideal para hospitais, melhorando a eficiência operacional e proporcionando uma experiência aprimorada para os usuários.
-
-## Equipe
-
-- Desenvolvedores:<br/>
-Diego Arruda - dca2@cesar.school<br/> 
-Flávio Romero - frssm@cesar.school<br/> 
-Henrique Roma - hrm@cesar.school<br/>
-João Henrique - jhml@cesar.school<br/> 
-Rodrigo Dubeux - rdmo@cesar.school<br/>
-Victor Hora - vht@cesar.school
-
-- Designers:<br/>
-Clarice Medeiros - cmc@cesar.school<br/> 
-Maria Clara Miranda - mcbm2@cesar.school<br/> 
-Maria Clara Moraes - mcfm@cesar.school<br/>
-Maria Eduarda Rosal - merbc@cesar.school<br/> 
-
-## Instruções para configuração do ambiente e contribuição
-
-<a href="https://docs.google.com/document/d/1zgW1Qm1ksYEiZjDiNZFTW7DR-mw3O8TJXq5FpQQWCwE/edit?usp=sharing"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Google_Docs_logo_%282014-2020%29.svg/1481px-Google_Docs_logo_%282014-2020%29.svg.png" alt="Docs" style="width:43px;height:60px;"></a>
-
 ## Diagrama de arquitetura
 
 <a href="https://drive.google.com/file/d/1u5yfisWmy6l0h9ArIl9J9q592ADugDLY/view?usp=sharing"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/267px-PDF_file_icon.svg.png?20220802235851" alt="Docs" style="width:43px;height:60px;"></a>
@@ -71,5 +48,28 @@ Maria Eduarda Rosal - merbc@cesar.school<br/>
 
 <a href="https://www.figma.com/proto/6RPhV3wnzRnoMxob7Iezlr/PROJETOS-2?type=design&node-id=1-44&scaling=scale-down&page-id=1%3A2&starting-point-node-id=1%3A44"><img src="https://logospng.org/download/figma/figma-1024.png" alt="Figma" style="width:60px;height:60px;"></a>
 
-## Licença (errado)
+## Instruções para configuração do ambiente e contribuição
+
+<a href="https://docs.google.com/document/d/1zgW1Qm1ksYEiZjDiNZFTW7DR-mw3O8TJXq5FpQQWCwE/edit?usp=sharing"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Google_Docs_logo_%282014-2020%29.svg/1481px-Google_Docs_logo_%282014-2020%29.svg.png" alt="Docs" style="width:43px;height:60px;"></a>
+
+## Missão
+O objetivo deste projeto é fornecer uma solução abrangente e eficiente para gerenciamento de cursos de residência no Hospital das Clínicas, vinculado à Universidade Federal de Pernambuco. Com um conjunto completo de recursos para gestão de médicos, residentes e demais funcionários, além de gerenciar as diversas áreas e especializações, controle de atividades, acompanhamento de desempenho e análise de dados, o programa oferece uma solução acessível e confiável para a administração de hospitais que oferecem o curso de residência. Este programa é ideal para hospitais, melhorando a eficiência operacional e proporcionando uma experiência aprimorada para os usuários.
+
+## Equipe
+
+- Desenvolvedores:<br/>
+Diego Arruda - dca2@cesar.school<br/> 
+Flávio Romero - frssm@cesar.school<br/> 
+Henrique Roma - hrm@cesar.school<br/>
+João Henrique - jhml@cesar.school<br/> 
+Rodrigo Dubeux - rdmo@cesar.school<br/>
+Victor Hora - vht@cesar.school
+
+- Designers:<br/>
+Clarice Medeiros - cmc@cesar.school<br/> 
+Maria Clara Miranda - mcbm2@cesar.school<br/> 
+Maria Clara Moraes - mcfm@cesar.school<br/>
+Maria Eduarda Rosal - merbc@cesar.school<br/> 
+
+## Licença
 Este projeto está licenciado sob a licença [GNU](https://github.com/Cenafowzin/Med_Sync/blob/main/LICENSE).
