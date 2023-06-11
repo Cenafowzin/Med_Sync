@@ -48,7 +48,7 @@ Para mais informações, acesse nosso site https://sites.google.com/cesar.school
 
 <a href="https://drive.google.com/file/d/14g0zjgaBcAKlbPHYevz7pM9lU7YJaX_w/view?usp=sharing"><img src="https://icon-library.com/images/img-icon/img-icon-11.jpg" alt="Img" style="width:60px;height:48px;"></a>
 
-## Protótipo (não está navegável)
+## Protótipo mobile (não está navegável)
 
 <a href="https://www.figma.com/proto/6RPhV3wnzRnoMxob7Iezlr/PROJETOS-2?type=design&node-id=1-44&scaling=scale-down&page-id=1%3A2&starting-point-node-id=1%3A44"><img src="https://logospng.org/download/figma/figma-1024.png" alt="Figma" style="width:60px;height:60px;"></a>
 
