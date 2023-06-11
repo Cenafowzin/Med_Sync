@@ -6,6 +6,14 @@ Para mais informações, acesse nosso site clicando na imagem abaixo:
 
 <a href="https://sites.google.com/cesar.school/projetos2grupo8/"><img src="https://github.com/Cenafowzin/Med_Sync/blob/main/output/Meu%20projeto.png?raw=true" alt="devine" style="width:140px;height:100px;"></a>
 
+## Breve resumo do conteúdo do repositório
+
+Neste repositório temos o diagrama de arquitetura do nosso projeto, além de uma tabela no formato do Excel com a lista de funcionalidades do protótipo original. Também disponibilizamos a análise hierárquica das tarefas, que serviu de guia para que desenvolvêssemos nosso protótipo. Ao fim, temos as instruções para que possam possam configurar o ambiente e contribuir com esse projeto. 
+
+Quanto ao código, ele está em C, e está dividido em três arquivos, o "functions.c", "functions.h", e o "main.c". Os "functions" é a nossa biblioteca, onde fizemos as funções personalizadas para o bom funcionamento da nossa solução, onde o .h estão as estruturas e parâmetros das funções, enquanto o .c está o corpo dessas funções. O "main.c" é o esqueleto do nosso protótipo, onde nós organizamos as nossas funções de modo que ela possa entregar o que pretendemos.
+
+Para executar o MedSync, basta clicar no main.exe, que irá abrir um terminal e poderás navegar através de menus interativos, que funcionam ao digitar números para efetuar escolhas.
+
 ## Diagrama de arquitetura
 
 <a href="https://drive.google.com/file/d/1u5yfisWmy6l0h9ArIl9J9q592ADugDLY/view?usp=sharing"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/267px-PDF_file_icon.svg.png?20220802235851" alt="Docs" style="width:43px;height:60px;"></a>
