@@ -1,0 +1,9 @@
+neurologia
+cirurgia
+1
+neurologia
+palestra
+0
+neurologia
+umband
+0
