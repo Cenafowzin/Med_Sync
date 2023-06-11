@@ -1502,7 +1502,6 @@ Account choose_account_by_number(AccountList accountList, int number) {
 }
 
 //PARTE 2 DE DIEGO
-
 typedef struct {
     char account_name[50];
     char feedback[1000];
