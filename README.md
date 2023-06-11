@@ -72,4 +72,4 @@ Maria Clara Moraes - mcfm@cesar.school<br/>
 Maria Eduarda Rosal - merbc@cesar.school<br/> 
 
 ## Licença (errado)
-Este projeto está licenciado sob a licença [MIT](https://github.com/flavio-muniz/MALO---fds-2023.1/blob/main/LICENSE).
+Este projeto está licenciado sob a licença [GNU](https://github.com/Cenafowzin/Med_Sync/blob/main/LICENSE).
