@@ -4,7 +4,7 @@
 Trata-se de um sistema de gerenciamento de cursos de residência, feito sob encomenda para o Hospital das Clínicas, vinculado à Universidade Federal de Pernambuco, baseado na linguagem C. Esse projeto é requisito da disciplina Projetos 2 dos cursos de Design e CiÊncias da Computação da faculdade Cesar School.
 Para mais informações, acesse nosso site clicando na imagem abaixo:
 
-<a href="https://sites.google.com/cesar.school/projetos2grupo8/"><img src="https://github.com/Cenafowzin/Med_Sync/blob/main/output/Meu%20projeto.png?raw=true" alt="devine" style="width:140px;height:100px;"></a>
+<a href="https://sites.google.com/cesar.school/projetos2grupo8/"><img src="https://github.com/Cenafowzin/Med_Sync/blob/main/imagens/Meu%20projeto.png?raw=true" alt="devine" style="width:140px;height:100px;"></a>
 
 ## Breve resumo do conteúdo do repositório
 
