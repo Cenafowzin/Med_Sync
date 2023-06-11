@@ -21,27 +21,27 @@ Trata-se de um sistema de gerenciamento de cursos de residência, feito sob enco
 
 - Cadastro
 
-<a href="https://drive.google.com/file/d/1CGpuJF8MU5eyjTgAUhl29EA0ZItlDxr5/view?usp=sharing"><img src="https://icon-library.com/images/img-icon/img-icon-11.jpg" alt="Img" style="width:43px;height:60px;"></a>
+<a href="https://drive.google.com/file/d/1CGpuJF8MU5eyjTgAUhl29EA0ZItlDxr5/view?usp=sharing"><img src="https://icon-library.com/images/img-icon/img-icon-11.jpg" alt="Img" style="width:60px;height:48px;"></a>
 
 - Analisar documentação
 
-<a href="https://drive.google.com/file/d/1wv_OkL4sm4Ri_idZhz32auScqjIY8w62/view?usp=sharing"><img src="https://icon-library.com/images/img-icon/img-icon-11.jpg" alt="Img" style="width:43px;height:60px;"></a>
+<a href="https://drive.google.com/file/d/1wv_OkL4sm4Ri_idZhz32auScqjIY8w62/view?usp=sharing"><img src="https://icon-library.com/images/img-icon/img-icon-11.jpg" alt="Img" style="width:60px;height:48px;"></a>
 
 - Criar atividade para cada curso
 
-<a href="https://drive.google.com/file/d/1eTawF8hTavk6DqtvLi87pj7G2Gu0Dbzp/view?usp=sharing"><img src="https://icon-library.com/images/img-icon/img-icon-11.jpg" alt="Img" style="width:43px;height:60px;"></a>
+<a href="https://drive.google.com/file/d/1eTawF8hTavk6DqtvLi87pj7G2Gu0Dbzp/view?usp=sharing"><img src="https://icon-library.com/images/img-icon/img-icon-11.jpg" alt="Img" style="width:60px;height:48px;"></a>
 
 2. Preceptor
 
 - Avaliar o residente
 
-<a href="https://drive.google.com/file/d/1BY7dyfp3-shcSV4E1IfKwot9qNN25sNW/view?usp=sharing"><img src="https://icon-library.com/images/img-icon/img-icon-11.jpg" alt="Img" style="width:43px;height:60px;"></a>
+<a href="https://drive.google.com/file/d/1BY7dyfp3-shcSV4E1IfKwot9qNN25sNW/view?usp=sharing"><img src="https://icon-library.com/images/img-icon/img-icon-11.jpg" alt="Img" style="width:60px;height:48px;"></a>
 
 3. Residente
 
 - Avaliar o curso de residência
 
-<a href="https://drive.google.com/file/d/1QJpNMSIqFfI_Vl4EFaC8zk-ghIo_I8Ju/view?usp=sharing"><img src="https://icon-library.com/images/img-icon/img-icon-11.jpg" alt="Img" style="width:43px;height:60px;"></a>
+<a href="https://drive.google.com/file/d/1QJpNMSIqFfI_Vl4EFaC8zk-ghIo_I8Ju/view?usp=sharing"><img src="https://icon-library.com/images/img-icon/img-icon-11.jpg" alt="Img" style="width:60px;height:48px;"></a>
 
 - Registrar atividade
 
