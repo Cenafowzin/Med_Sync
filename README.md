@@ -19,7 +19,7 @@ Trata-se de um sistema de gerenciamento de cursos de residência, feito sob enco
 
 1. Gerência
 
-- Cadastro
+  - Cadastro
 
 <a href="https://drive.google.com/file/d/1CGpuJF8MU5eyjTgAUhl29EA0ZItlDxr5/view?usp=sharing"><img src="https://icon-library.com/images/img-icon/img-icon-11.jpg" alt="Img" style="width:60px;height:48px;"></a>
 
