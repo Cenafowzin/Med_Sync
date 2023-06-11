@@ -51,3 +51,16 @@ Para mais informações, acesse nosso site https://sites.google.com/cesar.school
 ## Protótipo (não está navegável)
 
 <a href="https://www.figma.com/proto/6RPhV3wnzRnoMxob7Iezlr/PROJETOS-2?type=design&node-id=1-44&scaling=scale-down&page-id=1%3A2&starting-point-node-id=1%3A44"><img src="https://logospng.org/download/figma/figma-1024.png" alt="Figma" style="width:60px;height:60px;"></a>
+
+## Missão
+O objetivo deste projeto é fornecer uma solução abrangente e eficiente para gerenciamento de cursos de residência no Hospital das Clínicas, vinculado à Universidade Federal de Pernambuco. Com um conjunto completo de recursos para gestão de médicos, residentes e demais funcionários, além de gerenciar as diversas áreas e especializações, controle de atividades, acompanhamento de desempenho e análise de dados, o programa oferece uma solução acessível e confiável para a administração de hospitais que oferecem o curso de residência. Este programa é ideal para hospitais, melhorando a eficiência operacional e proporcionando uma experiência aprimorada para os usuários.
+
+## Equipe
+
+Diego Arruda - dca2@cesar.school<br/> 
+Flávio Romero - frssm@cesar.school<br/> 
+Henrique Roma - hrm@cesar.school<br/>
+João Henrique - jhml@cesar.school<br/> 
+Pedro Leite - phmal@cesar.school<br/> 
+Rodrigo Dubeux - rdmo@cesar.school<br/>
+Victor Hora - vht@cesar.school
