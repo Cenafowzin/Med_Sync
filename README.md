@@ -57,10 +57,19 @@ O objetivo deste projeto é fornecer uma solução abrangente e eficiente para g
 
 ## Equipe
 
+Desenvolvedores:<br/>
 Diego Arruda - dca2@cesar.school<br/> 
 Flávio Romero - frssm@cesar.school<br/> 
 Henrique Roma - hrm@cesar.school<br/>
 João Henrique - jhml@cesar.school<br/> 
-Pedro Leite - phmal@cesar.school<br/> 
 Rodrigo Dubeux - rdmo@cesar.school<br/>
 Victor Hora - vht@cesar.school
+
+Designers:<br/>
+Clarice Medeiros - cmc@cesar.school<br/> 
+Maria Clara Miranda - mcbm2@cesar.school<br/> 
+Maria Clara Moraes - mcfm@cesar.school<br/>
+Maria Eduarda Rosal - merbc@cesar.school<br/> 
+
+## Licença (errado)
+Este projeto está licenciado sob a licença [MIT](https://github.com/flavio-muniz/MALO---fds-2023.1/blob/main/LICENSE).
