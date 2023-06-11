@@ -73,3 +73,5 @@ Maria Eduarda Rosal - merbc@cesar.school<br/>
 
 ## Licença
 Este projeto está licenciado sob a licença [GNU](https://github.com/Cenafowzin/Med_Sync/blob/main/LICENSE).
+
+
