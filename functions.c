@@ -1082,6 +1082,7 @@ int main()
 
 /*funcao para alocar memoria para criar espacos para cadastro*/
 StructUser* criarCadastroLogin(StructUser* cadastro) {
+    
     cadastro = malloc(sizeof(StructUser));
     cadastro->nome = malloc(sizeof(char) * 100);
     cadastro->email = malloc(sizeof(char) * 100);
@@ -1096,6 +1097,7 @@ StructUser* criarCadastroLogin(StructUser* cadastro) {
 }
 /*liberar memoria criada para dados do cadastro*/
 void liberarCadastroLogin(StructUser* cadastro) {
+
     free(cadastro->nome);
     free(cadastro->email);
     free(cadastro->endereco);
@@ -1118,6 +1120,7 @@ void salvarStructUser(const StructUser* user) {
         printf("Erro ao abrir o arquivo.\n");
         return;
     }
+
     fprintf(arquivo, "Permissao: %d\n", user->permissao);
     fprintf(arquivo, "Nome: %s\n", user->nome);
     fprintf(arquivo, "Email: %s\n", user->email);
