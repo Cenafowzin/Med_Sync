@@ -1453,73 +1453,79 @@ int login_account(char* login, char* password) {
 }
 
 
-//aREA DE DIEGO:
+//Area de Diego:
 
 typedef struct {
-    char* nome;
-    int especializacao;
-    int avaliacao;
-} Residente;
+    Account* accounts;
+    int count;
+} AccountList;
+
+AccountList show_specialization(char* specialization) {
+    static Account accounts[100];
+    int count = 0;
+
+    FILE *file = fopen("accounts.txt", "r");
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        exit(1);
+    }
+
+    Account account;
+    while (fscanf(file, "%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n", account.login, account.password, account.nome, account.cargo, account.area, account.especializacao) != EOF) {
+        if (strcmp(specialization, account.especializacao) == 0) {
+            accounts[count++] = account;
+        }
+    }
+    fclose(file);
+
+    // Exibir os nomes com um número vinculado
+    for (int i = 0; i < count; i++) {
+        printf("%d - %s\n", i+1, accounts[i].nome);
+    }
+
+    AccountList accountList = {accounts, count};
+    return accountList;
+}
+
+
+Account choose_account_by_number(AccountList accountList, int number) {
+    if (number > 0 && number <= accountList.count) {
+        return accountList.accounts[number-1];
+    }
+
+    // Se o número fornecido não for válido, retornar uma conta vazia
+    Account empty_account = {"", "", "", "", "", ""};
+    return empty_account;
+}
+
+//PARTE 2 DE DIEGO
 
 typedef struct {
-    char* especializacao;
-    Residente* residentes;
-    int numResidentes;
-} Especializacao;
+    char account_name[50];
+    char feedback[1000];
+} Feedback;
 
-Especializacao* criarEspecializacoes(int numEspecializacoes) {
-    Especializacao* especializacoes = malloc(sizeof(Especializacao) * numEspecializacoes);
-    for (int i = 0; i < numEspecializacoes; i++) {
-        especializacoes[i].especializacao = malloc(sizeof(char) * 100);
-        printf("Digite o nome da especialização %d: ", i + 1);
-        scanf("%s", especializacoes[i].especializacao);
-        especializacoes[i].residentes = NULL;
-        especializacoes[i].numResidentes = 0;
+void save_feedback(Feedback feedback) {
+    FILE *file = fopen("feedbacks.txt", "a");
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        exit(1);
     }
-    return especializacoes;
+    fprintf(file, "%s: %s\n", feedback.account_name, feedback.feedback);
+    fclose(file);
 }
 
-void liberarEspecializacoes(Especializacao* especializacoes, int numEspecializacoes) {
-    for (int i = 0; i < numEspecializacoes; i++) {
-        free(especializacoes[i].especializacao);
-        if (especializacoes[i].residentes != NULL) {
-            free(especializacoes[i].residentes);
-        }
-    }
-    free(especializacoes);
-}
+void give_feedback(Account chosenAccount) {
+    Feedback feedback;
 
-void selecionarEspecializacao(Especializacao* especializacoes, int numEspecializacoes) {
-    printf("Especializações disponíveis:\n");
-    for (int i = 0; i < numEspecializacoes; i++) {
-        printf("%d. %s\n", i + 1, especializacoes[i].especializacao);
-    }
-    int opcao;
-    printf("Selecione uma especialização: ");
-    scanf("%d", &opcao);
-    if (opcao >= 1 && opcao <= numEspecializacoes) {
-        Especializacao selecionada = especializacoes[opcao - 1];
-        printf("Especialização selecionada: %s\n", selecionada.especializacao);
+    // Copia o nome da conta escolhida para a estrutura de feedback
+    strcpy(feedback.account_name, chosenAccount.nome);
 
-        // Ler o documento com os alunos da especialização selecionada
-        char nomeDocumento[100];
-        printf("Digite o nome do documento com os alunos da especialização: ");
-        scanf("%s", nomeDocumento);
+    printf("Dê seu feedback para %s: ", chosenAccount.nome);
+    getchar();  // Limpa o buffer do teclado
+    fgets(feedback.feedback, sizeof(feedback.feedback), stdin);
+    feedback.feedback[strcspn(feedback.feedback, "\n")] = '\0';  // Remove a quebra de linha no final
 
-        FILE* arquivo = fopen(nomeDocumento, "r");
-        if (arquivo == NULL) {
-            printf("Erro ao abrir o arquivo.\n");
-            return;
-        }
-
-        // Ler e exibir os alunos da especialização
-        char linha[256];
-        while (fgets(linha, sizeof(linha), arquivo)) {
-            printf("Aluno: %s", linha);
-        }
-
-        fclose(arquivo);
-    } else {
-        printf("Opção inválida.\n");
-    }
+    save_feedback(feedback);
+    printf("Feedback salvo com sucesso.\n");
 }
