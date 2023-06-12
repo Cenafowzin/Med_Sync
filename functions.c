@@ -243,7 +243,7 @@ void createActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail
     scanf("%d", &mod);
     getchar();
 
-    if(mod < 0 && mod > 1){
+    if(mod < 0 || mod > 1){
         printf("Opcao invalida");
         return;
     }
@@ -386,9 +386,10 @@ void deleteActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail
 //FORMULARIO ---------------------------------------------------------------
 
 void saveQuests(questForm *QuestFormHead){
+    printf("ENTREI NA FUNCAO");
     FILE * fp = fopen("db/gerencia/quests.txt", "w+");
     questForm * current = QuestFormHead;
-
+    printf("abriu arquivo");
     if(fp == NULL){
         printf("nao foi possivel abrir arquivo!");
         return;
@@ -398,6 +399,7 @@ void saveQuests(questForm *QuestFormHead){
         fprintf(fp, "%s\n", current->activity);
         fprintf(fp, "%s\n", current->quest);
         fprintf(fp, "%d\n", current->type);
+      
         if(current->type == 1){
             fprintf(fp, "%d\n", current->nAlts);
 
@@ -528,7 +530,6 @@ void createQuestForm(actvNode *SelectedActiv, questForm **FormHead, questForm **
         if(type == 0){
             (*FormHead)->alternatives = NULL;
             (*FormHead)->nAlts = 0;
-            return;
         
         }else{
             printf("Digite o numero de alternativas:\n");
@@ -585,7 +586,6 @@ void createQuestForm(actvNode *SelectedActiv, questForm **FormHead, questForm **
         if(type == 0){
             (*FormTail)->alternatives = NULL;
             (*FormTail)->nAlts = 0;
-            return;
         
         }else{
             printf("Digite o numero de alternativas:\n");
@@ -617,9 +617,10 @@ void createQuestForm(actvNode *SelectedActiv, questForm **FormHead, questForm **
 
             (*FormTail)->nAlts = alts;
         }
-    }
 
-    //saveQuests(*FormHead);
+      
+    }
+  saveQuests(*FormHead);
 }
 /*edita questão no formulário*/
 void editQuestForm(actvNode *SelectedActiv, questForm **FormHead){
@@ -717,6 +718,8 @@ void editQuestForm(actvNode *SelectedActiv, questForm **FormHead){
         }
         
     }
+
+    saveQuests(*FormHead);
 }
 
 void deleteQuestForm(actvNode *SelectedActiv, questForm **FormHead, questForm **FormTail){
@@ -769,6 +772,8 @@ void deleteQuestForm(actvNode *SelectedActiv, questForm **FormHead, questForm **
     if(*FormHead == NULL){
         *FormTail = NULL;
     }
+
+    saveQuests(*FormHead);
 }
 
 /*menu do formulário*/
@@ -777,7 +782,7 @@ void menuForm(actvNode *SelectedActiv, questForm **FormHead, questForm **FormTai
     questForm *selectedQuest = NULL;
 
     while(command != 0){
-        printf("[%s]\n", *FormHead);
+        printf("[%p]\n", *FormHead);
         printf("Atividade: %s\n|----------------|\n", SelectedActiv->name);
         
         if(*FormHead == NULL){
@@ -820,7 +825,7 @@ void menuForm(actvNode *SelectedActiv, questForm **FormHead, questForm **FormTai
             return;
             break;
         case 1:
-            printf("\033[H\033[2J");
+            //clear
             createQuestForm(SelectedActiv, FormHead, FormTail);
             printf("\033[H\033[2J");
             break;
@@ -832,7 +837,7 @@ void menuForm(actvNode *SelectedActiv, questForm **FormHead, questForm **FormTai
 
         case 3:
             printf("\033[H\033[2J");
-            selectedQuest = selectQuest(SelectedActiv, *FormHead, selectedQuest);
+            selectedQuest = selectQuest(SelectedActiv, FormHead, selectedQuest);
             printf("\033[H\033[2J");
 
             if(selectedQuest != NULL){
@@ -859,7 +864,7 @@ void menuActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail, 
     actvNode *selectedActv = NULL;
 
     while(command != 0){
-        printf("[%s]\n", *ActvHead);
+        printf("[%p]\n", *ActvHead);
         printf("Especializacao: %s\n|----------------|\n", SelectedSpec->name);
         
         if(*ActvHead == NULL){
