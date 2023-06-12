@@ -4,6 +4,3 @@ cirurgia
 neurologia
 palestra
 0
-neurologia
-umband
-0

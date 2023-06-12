@@ -194,6 +194,7 @@ actvNode *selectActv(specNode *SelectedSpec, actvNode *ActvHead, actvNode *PrevS
 
         printf("Digite o numero da atividade: ");
         scanf("%d", &atcv);
+        getchar();
 
         if (atcv == 0){
             if(PrevSelected != NULL){
@@ -240,13 +241,13 @@ void createActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail
     printf("(1) Pratica\n");
     printf("Digite a modalidade da atividade:\n");
     scanf("%d", &mod);
+    getchar();
 
     if(mod < 0 && mod > 1){
         printf("Opcao invalida");
         return;
     }
     
-    getchar();
     printf("Digite o nome da atividade que deseja criar:\n");
     ch = getchar();
 
@@ -309,7 +310,6 @@ void editActv(specNode *SelectedSpec, actvNode **ActvHead){
     actvNode *selectedActiv = NULL;
 
     selectedActiv = selectActv(SelectedSpec, *ActvHead, selectedActiv);
-    getchar();
 
     if(selectedActiv == NULL || *ActvHead == NULL){
         printf("Nenhuma atividade");
@@ -338,6 +338,8 @@ void editActv(specNode *SelectedSpec, actvNode **ActvHead){
         selectedActiv->name[size] = '\0';
         
     }
+
+    saveActvs(*ActvHead);
 }
 /*apaga atividade*/
 void deleteActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail){
@@ -362,6 +364,11 @@ void deleteActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail
         }
 
         temp = current->next;
+
+        if(current->next == *ActvTail){
+            *ActvTail = current;
+        }
+
         current->next = current->next->next;
         free(temp->name);
         free(temp->spec);
@@ -372,6 +379,8 @@ void deleteActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail
     if(*ActvHead == NULL){
         *ActvTail = NULL;
     }
+
+    saveActvs(*ActvHead);
 }
 
 //FORMULARIO ---------------------------------------------------------------
@@ -468,7 +477,7 @@ questForm *selectQuest(actvNode *SelectedActivity, questForm *QuestFormHead, que
 /*cria questão no formulário*/
 void createQuestForm(actvNode *SelectedActiv, questForm **FormHead, questForm **FormTail){
     char ch;
-    int type, alts;
+    int type, alts, size=0;
 
     if(SelectedActiv == NULL){
         printf("Nenhuma atividade selecionada");
@@ -495,7 +504,7 @@ void createQuestForm(actvNode *SelectedActiv, questForm **FormHead, questForm **
     }
 
     if(*FormHead == NULL){
-        int size = 0;
+        size = 0;
 
         *FormHead = (questForm*)malloc(sizeof(questForm));
         (*FormHead)->quest = (char *)malloc(sizeof(char));
@@ -532,7 +541,7 @@ void createQuestForm(actvNode *SelectedActiv, questForm **FormHead, questForm **
             for(int i=0; i<alts; i++){
                 size = 0;
 
-                printf("Digite a alternativa %d:\n", i+1);
+                printf("Digite a alternativa %d:\n", (i+1));
                 ch = getchar();
 
                 (*FormHead)->alternatives[i] = (char *)malloc(sizeof(char));
@@ -547,15 +556,15 @@ void createQuestForm(actvNode *SelectedActiv, questForm **FormHead, questForm **
                 }
                 (*FormHead)->alternatives[i][size] = '\0';
 
-                (*FormHead)->nAlts = alts;
             }
+            (*FormHead)->nAlts = alts;
         }
 
     }else{
         (*FormTail)->next = (questForm*)malloc(sizeof(questForm));
         (*FormTail) = (*FormTail)->next;
 
-        int size = 0;
+        size = 0;
         (*FormTail)->quest = (char *)malloc(sizeof(char));
         (*FormTail)->quest[size] = ch;
 
@@ -589,7 +598,7 @@ void createQuestForm(actvNode *SelectedActiv, questForm **FormHead, questForm **
             for(int i=0; i<alts; i++){
                 size = 0;
 
-                printf("Digite a alternativa %d:\n", i+1);
+                printf("Digite a alternativa %d:\n", (i+1));
                 ch = getchar();
 
                 (*FormTail)->alternatives[i] = (char *)malloc(sizeof(char));
@@ -604,8 +613,9 @@ void createQuestForm(actvNode *SelectedActiv, questForm **FormHead, questForm **
                 }
                 (*FormTail)->alternatives[i][size] = '\0';
 
-                (*FormTail)->nAlts = alts;
             }
+
+            (*FormTail)->nAlts = alts;
         }
     }
 
@@ -738,6 +748,11 @@ void deleteQuestForm(actvNode *SelectedActiv, questForm **FormHead, questForm **
         }
 
         temp = current->next;
+
+        if(current->next == *FormTail){
+            *FormTail = current;
+        }
+
         current->next = current->next->next;
         free(temp->quest);
         free(temp->activity);
@@ -917,7 +932,6 @@ void menuActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail, 
         case 6:
             selectedActv = selectActv(SelectedSpec, *ActvHead, selectedActv);
             printf("\033[H\033[2J");
-            getchar();
             answerQuestForm(selectedActv, FormHead, &QuestRespHead, &QuestRespTail);
             printf("\033[H\033[2J");
             break;
@@ -1222,6 +1236,11 @@ void deleteSpec(areaNode *SelectedArea, specNode **SpecHead, specNode **SpecTail
         }
 
         temp = current->next;
+
+        if(current->next == *SpecTail){
+            *SpecTail = current;
+        }
+
         current->next = current->next->next;
         free(temp->name);
         free(temp);
@@ -1546,6 +1565,11 @@ void deleteArea(areaNode **AreaHead, areaNode **AreaTail){
         }
 
         temp = current->next;
+
+        if(current->next == *AreaTail){
+            *AreaTail = current;
+        }
+
         current->next = current->next->next;
         free(temp->name);
         free(temp);
