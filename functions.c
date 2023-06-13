@@ -1983,6 +1983,7 @@ void answerQuestForm(actvNode *SelectedActiv, questForm *FormHead, questFormResp
 
 
 //aREA DE JOaO e Henrique:
+/*dados (login, password, nome, cargo, area, especializacao)*/
 typedef struct {
     char login[50];
     char password[50];
@@ -2118,6 +2119,7 @@ void menuResident(Account * User){
 };
 
 //PARTE 2 DE DIEGO
+/*nome e feedback*/
 typedef struct {
     char account_name[50];
     char feedback[1000];
@@ -2147,6 +2149,33 @@ void give_feedback(Account chosenAccount) {
     save_feedback(feedback);
     printf("Feedback salvo com sucesso.\n");
 }
+
+void print_feedback(const char* account_name) {
+    FILE *file = fopen("db/gerencia/feedbacks.txt", "r");
+    if (file == NULL) {
+        printf("Erro ao abrir o arquivo.\n");
+        exit(1);
+    }
+
+    Feedback feedback;
+    int count = 0;
+
+    while (fscanf(file, "%49[^:]: %[^\n]\n", feedback.account_name, feedback.feedback) != EOF) {
+        if (strcmp(account_name, feedback.account_name) == 0) {
+            printf("Feedback %d:\n", ++count);
+            printf("Account Name: %s\n", feedback.account_name);
+            printf("Feedback: %s\n", feedback.feedback);
+            printf("\n");
+        }
+    }
+
+    fclose(file);
+
+    if (count == 0) {
+        printf("Não foram encontrados feedbacks para a conta %s.\n", account_name);
+    }
+}
+
 
 void entradaRegistro(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead, specNode *SpecTail,
  actvNode *ActvHead, actvNode *ActvTail, questForm *FormHead, questForm *FormTail, questFormResp *QuestRespHead, 
