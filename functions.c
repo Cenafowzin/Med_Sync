@@ -163,7 +163,7 @@ void loadActvs(actvNode **ActvHead, actvNode **ActvTail){
     }
 }
 /*seleciona atividade*/
-actvNode *selectActv(specNode *SelectedSpec, actvNode *ActvHead, actvNode *PrevSelected){
+actvNode *selectActv(char *SelectedSpec, actvNode *ActvHead, actvNode *PrevSelected){
 
     if(SelectedSpec == NULL){
         printf("Nenhuma especializacao selecionada");
@@ -182,7 +182,7 @@ actvNode *selectActv(specNode *SelectedSpec, actvNode *ActvHead, actvNode *PrevS
         count++;
 
         while(current != NULL){
-            if(strcmp(current->spec, SelectedSpec->name) == 0){
+            if(strcmp(current->spec, SelectedSpec) == 0){
                 printf("(%d) %s\n-----------------\n", count, current->name);
                 current = current->next;
                 count++;
@@ -213,10 +213,10 @@ actvNode *selectActv(specNode *SelectedSpec, actvNode *ActvHead, actvNode *PrevS
         count = 1;
 
         while(count <= atcv){
-            if(count == atcv && strcmp(current->spec, SelectedSpec->name) == 0){
+            if(count == atcv && strcmp(current->spec, SelectedSpec) == 0){
                 return current;
 
-            }else if(strcmp(current->spec, SelectedSpec->name) == 0){
+            }else if(strcmp(current->spec, SelectedSpec) == 0){
                 current = current->next;
                 count++;
             }else{
@@ -309,7 +309,7 @@ void editActv(specNode *SelectedSpec, actvNode **ActvHead){
     
     actvNode *selectedActiv = NULL;
 
-    selectedActiv = selectActv(SelectedSpec, *ActvHead, selectedActiv);
+    selectedActiv = selectActv(SelectedSpec->name, *ActvHead, selectedActiv);
 
     if(selectedActiv == NULL || *ActvHead == NULL){
         printf("Nenhuma atividade");
@@ -345,7 +345,7 @@ void editActv(specNode *SelectedSpec, actvNode **ActvHead){
 void deleteActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail){
     actvNode *selectedActiv = NULL, *current = *ActvHead, *temp = NULL;
 
-    selectedActiv = selectActv(SelectedSpec, *ActvHead, selectedActiv);
+    selectedActiv = selectActv(SelectedSpec->name, *ActvHead, selectedActiv);
 
     if(selectedActiv == NULL || *ActvHead == NULL){
         printf("Nenhuma atividade");
@@ -1076,7 +1076,7 @@ void menuActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail, 
 
         case 3:
             printf("\033[H\033[2J");
-            selectedActv = selectActv(SelectedSpec, *ActvHead, selectedActv);
+            selectedActv = selectActv(SelectedSpec->name, *ActvHead, selectedActv);
             printf("\033[H\033[2J");
 
             if(selectedActv != NULL){
@@ -1091,14 +1091,14 @@ void menuActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail, 
             break;
 
         case 5:
-            selectedActv = selectActv(SelectedSpec, *ActvHead, selectedActv);
+            selectedActv = selectActv(SelectedSpec->name, *ActvHead, selectedActv);
             printf("\033[H\033[2J");
             menuForm(selectedActv, &FormHead, &FormTail);
             printf("\033[H\033[2J");
             break;
 
         case 6:
-            selectedActv = selectActv(SelectedSpec, *ActvHead, selectedActv);
+            selectedActv = selectActv(SelectedSpec->name, *ActvHead, selectedActv);
             printf("\033[H\033[2J");
             answerQuestForm(selectedActv, FormHead, &QuestRespHead, &QuestRespTail);
             printf("\033[H\033[2J");
@@ -1821,7 +1821,9 @@ void menuManager(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead, spe
     }
 
 }
-void entradaRegistro();
+void entradaRegistro(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead, specNode *SpecTail,
+ actvNode *ActvHead, actvNode *ActvTail, questForm *FormHead, questForm *FormTail, questFormResp *QuestRespHead, 
+ questFormResp *QuestRespTail);
 // testes (sera apagado no fim)
 int main()
 {
@@ -2056,11 +2058,12 @@ Account * login_account(char* login, char* password) {
         printf("Erro ao abrir o arquivo.\n");
         exit(1);
     }
-    Account account;
-    while (fscanf(file, "%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n", account.login, account.password, account.nome, account.cargo, account.area, account.especializacao) != EOF) {
-        if (strcmp(login, account.login) == 0 && strcmp(password, account.password) == 0) {
+    Account * account = (Account*)malloc(sizeof(Account));
+
+    while (fscanf(file, "%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n", account->login, account->password, account->nome, account->cargo, account->area, account->especializacao) != EOF) {
+        if (strcmp(login, account->login) == 0 && strcmp(password, account->password) == 0) {
             fclose(file);
-            return &account;
+            return account;
         }
     }
     fclose(file);
@@ -2075,7 +2078,7 @@ typedef struct {
     int count;
 } AccountList;
 
-AccountList show_specialization(char* specialization) {
+AccountList show_specialization(char* specialization, char* cargo) {
     static Account accounts[100];
     int count = 0;
 
@@ -2087,7 +2090,7 @@ AccountList show_specialization(char* specialization) {
 
     Account account;
     while (fscanf(file, "%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n", account.login, account.password, account.nome, account.cargo, account.area, account.especializacao) != EOF) {
-        if (strcmp(specialization, account.especializacao) == 0) {
+        if (strcmp(specialization, account.especializacao) == 0 && strcmp(cargo, account.cargo) == 0) {
             accounts[count++] = account;
         }
     }
@@ -2113,8 +2116,46 @@ Account choose_account_by_number(AccountList accountList, int number) {
     return empty_account;
 }
 
-void menuResident(Account * User){
+void menuPreceptor(){
 
+}
+
+void give_feedback(Account chosenAccount);
+
+void menuResident(Account * User, actvNode * ActvHead, questForm *FormHead, questFormResp **FormRespHead, questFormResp **FormRespTail){
+    int command = -1, choice;
+    actvNode * selectedActv = NULL;
+    AccountList list;
+
+    while(command != 0){
+        printf("\033[H\033[2J");
+        printf("Selecione uma acao para fazer:\n");
+        printf("0 - Sair\n");
+        printf("1 - Registrar Atividade\n");
+        printf("2 - Registrar Feedback\n");
+        printf("3 - Ver Feedback\n");
+        scanf("%d", &command);
+
+        switch(command){
+        case 1:
+            printf("\033[H\033[2J");
+            selectedActv = selectActv(User->especializacao, ActvHead, selectedActv);
+            printf("\033[H\033[2J");
+            answerQuestForm(selectedActv, FormHead, FormRespHead, FormRespTail);
+            break;
+
+        case 2:
+            list = show_specialization(User->especializacao, "Preceptor");
+            scanf("%d", &choice);
+            getchar();
+            give_feedback(choose_account_by_number(list, choice));
+            break;
+
+        case 3:
+            show_feedback();
+            break;
+        }
+    }
 };
 
 //PARTE 2 DE DIEGO
@@ -2177,13 +2218,17 @@ void entradaRegistro(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead,
         printf("Logado com sucesso.\n");
         if(strcmp(loggedUser->cargo, "Gerente") == 0){
             menuManager(AreaHead, AreaTail, SpecHead, SpecTail, ActvHead, ActvTail, FormHead, FormTail, QuestRespHead, QuestRespTail);
+
         }else if(strcmp(loggedUser->cargo, "Preceptor") == 0){
-            //menuPreceptor();
+            menuPreceptor();
+
         }else if(strcmp(loggedUser->cargo, "Residente") == 0){
-            //menuResident();
+            printf("\033[H\033[2J");
+            menuResident(loggedUser, ActvHead, FormHead, &QuestRespHead, &QuestRespTail);
+
         }
         
-      } else {
+      }else{
         printf("Falha ao logar. Tente novamente.\n");
         printf("\033[H\033[2J");
       }  
@@ -2192,7 +2237,7 @@ void entradaRegistro(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead,
       create_account();
       printf("\033[H\033[2J");
       
-    }else{
+    }else if(escolha != 0){
       printf("\nOpcao invalida\n");
       sleep(2);
       printf("\033[H\033[2J");
