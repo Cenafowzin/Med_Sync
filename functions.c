@@ -412,6 +412,168 @@ void saveQuests(questForm *QuestFormHead){
     
     fclose(fp);
 }
+
+void loadQuests(questForm **FormHead, questForm **FormTail){
+    FILE * fp = fopen("db/gerencia/actvs.txt", "r");
+    char ch;
+    int size = 0, mod;
+
+    if(fp == NULL){
+        printf("nao foi possivel abrir arquivo!");
+        return;
+    }
+
+    ch = fgetc(fp);
+    
+    while(ch != EOF){
+        
+        if(*FormHead == NULL){
+            size = 0;
+
+            *FormHead = (questForm*)malloc(sizeof(questForm));
+            (*FormHead)->activity = (char *)malloc(sizeof(char));
+            (*FormHead)->activity[size] = ch;
+
+            while(ch != '\n'){
+                (*FormHead)->activity = (char *)realloc(((*FormHead)->activity), (size + 2) * sizeof(char));
+                (*FormHead)->activity[size] = ch;
+                size++;
+
+                ch = fgetc(fp);
+            }
+            (*FormHead)->activity[size] = '\0';
+
+            ch = fgetc(fp);
+
+            size = 0;
+
+            (*FormHead)->quest = (char *)malloc(sizeof(char));
+            (*FormHead)->quest[size] = ch;
+
+            while(ch != '\n'){
+                (*FormHead)->quest = (char *)realloc(((*FormHead)->quest), (size + 2) * sizeof(char));
+                (*FormHead)->quest[size] = ch;
+                size++;
+
+                ch = fgetc(fp);
+            }
+            (*FormHead)->quest[size] = '\0';
+
+            ch = fgetc(fp);
+            
+            (*FormHead)->type = ch - '0';
+            (*FormHead)->next = NULL;
+            *FormTail = *FormHead;
+
+            if(ch == '0'){
+                (*FormHead)->alternatives = NULL;
+                (*FormHead)->nAlts = 0;
+            
+            }else{
+                ch = fgetc(fp);
+                ch = fgetc(fp);
+                int alts = ch - '0';
+                
+
+                (*FormHead)->alternatives = (char**)calloc(alts, sizeof(char*));
+                
+
+                for(int i=0; i<alts; i++){
+                    size = 0;
+
+                    ch = fgetc(fp);
+
+                    (*FormHead)->alternatives[i] = (char *)malloc(sizeof(char));
+                    (*FormHead)->alternatives[i][size] = ch;
+
+                    while(ch != '\n'){
+                        (*FormHead)->alternatives[i] = (char *)realloc(((*FormHead)->alternatives[i]), (size + 2) * sizeof(char));
+                        (*FormHead)->alternatives[i][size] = ch;
+                        size++;
+
+                        ch = fgetc(fp);
+                    }
+                    (*FormHead)->alternatives[i][size] = '\0';
+                }
+                (*FormHead)->nAlts = alts;
+            }
+
+        }else{
+            (*FormTail)->next = (questForm*)malloc(sizeof(questForm));
+            (*FormTail) = (*FormTail)->next;
+
+            size = 0;
+
+            (*FormTail)->activity = (char *)malloc(sizeof(char));
+            (*FormTail)->activity[size] = ch;
+
+            while(ch != '\n'){
+                (*FormTail)->activity = (char *)realloc(((*FormTail)->activity), (size + 2) * sizeof(char));
+                (*FormTail)->activity[size] = ch;
+                size++;
+
+                ch = fgetc(fp);
+            }
+            (*FormTail)->activity[size] = '\0';
+
+            ch = fgetc(fp);
+
+            size = 0;
+
+            (*FormTail)->quest = (char *)malloc(sizeof(char));
+            (*FormTail)->quest[size] = ch;
+
+            while(ch != '\n'){
+                (*FormTail)->quest = (char *)realloc(((*FormTail)->quest), (size + 2) * sizeof(char));
+                (*FormTail)->quest[size] = ch;
+                size++;
+
+                ch = fgetc(fp);
+            }
+            (*FormTail)->quest[size] = '\0';
+
+            ch = fgetc(fp);
+            
+            (*FormTail)->type = ch - '0';
+            (*FormTail)->next = NULL;
+
+            if(ch == '0'){
+                (*FormTail)->alternatives = NULL;
+                (*FormTail)->nAlts = 0;
+            
+            }else{
+                ch = fgetc(fp);
+                ch = fgetc(fp);
+                int alts = ch - '0';
+
+                (*FormTail)->alternatives = (char**)calloc(alts, sizeof(char*));
+
+
+                for(int i=0; i<alts; i++){
+                    size = 0;
+
+                    ch = fgetc(fp);
+
+                    (*FormTail)->alternatives[i] = (char *)malloc(sizeof(char));
+                    (*FormTail)->alternatives[i][size] = ch;
+
+                    while(ch != '\n'){
+                        (*FormTail)->alternatives[i] = (char *)realloc(((*FormTail)->alternatives[i]), (size + 2) * sizeof(char));
+                        (*FormTail)->alternatives[i][size] = ch;
+                        size++;
+
+                        ch = fgetc(fp);
+                    }
+                    (*FormTail)->alternatives[i][size] = '\0';
+
+                }
+                (*FormTail)->nAlts = alts;
+            }
+        }
+
+        ch = fgetc(fp);
+    }
+}
 /*seleciona questão do form*/
 questForm *selectQuest(actvNode *SelectedActivity, questForm *QuestFormHead, questForm *PrevSelected){
     if(SelectedActivity == NULL){
@@ -1673,7 +1835,8 @@ int main()
     loadAreas(&AreaHead, &AreaTail);
     loadSpecs(&SpecHead, &SpecTail);
     loadActvs(&ActvHead, &ActvTail);
-    entradaRegistro();
+    loadQuests(&ActvFormtHead, &ActvFormtTail);
+    //entradaRegistro();
     menuArea(AreaHead, AreaTail, SpecHead, SpecTail, ActvHead, ActvTail, ActvFormtHead, ActvFormtTail, QuestRespHead, QuestRespTail);
 
     specNode * c = SpecHead;
@@ -1887,7 +2050,7 @@ void create_account() {
     printf("Conta criada com sucesso.\n");
 }
 
-int login_account(char* login, char* password) {
+Account * login_account(char* login, char* password) {
     FILE *file = fopen("db/gerencia/accounts.txt", "r");
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
@@ -1897,11 +2060,11 @@ int login_account(char* login, char* password) {
     while (fscanf(file, "%[^;];%[^;];%[^;];%[^;];%[^;];%[^\n]\n", account.login, account.password, account.nome, account.cargo, account.area, account.especializacao) != EOF) {
         if (strcmp(login, account.login) == 0 && strcmp(password, account.password) == 0) {
             fclose(file);
-            return 1;
+            return &account;
         }
     }
     fclose(file);
-    return 0;
+    return NULL;
 }
 
 
@@ -1982,13 +2145,13 @@ void give_feedback(Account chosenAccount) {
 }
 
 void entradaRegistro(){
-  int escolha = 0;
-  while(escolha != 9){
+  int escolha = -1;
+  while(escolha != 0){
   printf("BEM VINDO AO MEDSYNC\n\n");
   printf("Escolha uma opcao:\n");
   printf("1 - Login:\n");
   printf("2 - Registre-se:\n");
-  printf("9 - Encerrar:\n");
+  printf("0 - Encerrar:\n");
   scanf("%d", &escolha);
   getchar();
     if(escolha == 1){
@@ -2001,25 +2164,25 @@ void entradaRegistro(){
       printf("Digite a senha: ");
       scanf("%s", password);
       getchar();
+
+      Account * loggedUser= login_account(login, password);
   
-      if (login_account(login, password)) {
+      if (loggedUser != NULL) {
         printf("Logado com sucesso.\n");
+        
       } else {
         printf("Falha ao logar. Tente novamente.\n");
         printf("\033[H\033[2J");
-        entradaRegistro();
       }  
       
     }else if (escolha == 2){
       create_account();
       printf("\033[H\033[2J");
-      entradaRegistro();
       
     }else{
       printf("\nOpcao invalida\n");
       sleep(2);
       printf("\033[H\033[2J");
-      //entradaRegistro();
     }
   }
 }
