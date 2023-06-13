@@ -42,7 +42,7 @@ typedef struct questFormResp{
 } questFormResp;
 
 // ATIVIDADE ---------------------------------------------------------------
-
+/*salva atividades*/
 void saveActvs(actvNode *ActvHead){
     FILE * fp = fopen("db/gerencia/actvs.txt", "w+");
     actvNode * current = ActvHead;
@@ -61,7 +61,7 @@ void saveActvs(actvNode *ActvHead){
     
     fclose(fp);
 }
-
+/*carrega atividades*/
 void loadActvs(actvNode **ActvHead, actvNode **ActvTail){
     FILE * fp = fopen("db/gerencia/actvs.txt", "r");
     char ch;
@@ -384,7 +384,7 @@ void deleteActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail
 }
 
 //FORMULARIO ---------------------------------------------------------------
-
+/*salva perguntas*/
 void saveQuests(questForm *QuestFormHead){
     printf("ENTREI NA FUNCAO");
     FILE * fp = fopen("db/gerencia/quests.txt", "w+");
@@ -412,9 +412,9 @@ void saveQuests(questForm *QuestFormHead){
     
     fclose(fp);
 }
-
+/*carrega perguntas*/
 void loadQuests(questForm **FormHead, questForm **FormTail){
-    FILE * fp = fopen("db/gerencia/actvs.txt", "r");
+    FILE * fp = fopen("db/gerencia/quests.txt", "r");
     char ch;
     int size = 0, mod;
 
@@ -465,10 +465,10 @@ void loadQuests(questForm **FormHead, questForm **FormTail){
             (*FormHead)->next = NULL;
             *FormTail = *FormHead;
 
-            if(ch == '0'){
+            if((ch - '0') == 0){
                 (*FormHead)->alternatives = NULL;
                 (*FormHead)->nAlts = 0;
-            
+                ch = fgetc(fp);
             }else{
                 ch = fgetc(fp);
                 ch = fgetc(fp);
@@ -476,6 +476,7 @@ void loadQuests(questForm **FormHead, questForm **FormTail){
                 
 
                 (*FormHead)->alternatives = (char**)calloc(alts, sizeof(char*));
+                ch = fgetc(fp);
                 
 
                 for(int i=0; i<alts; i++){
@@ -497,7 +498,6 @@ void loadQuests(questForm **FormHead, questForm **FormTail){
                 }
                 (*FormHead)->nAlts = alts;
             }
-
         }else{
             (*FormTail)->next = (questForm*)malloc(sizeof(questForm));
             (*FormTail) = (*FormTail)->next;
@@ -537,9 +537,10 @@ void loadQuests(questForm **FormHead, questForm **FormTail){
             (*FormTail)->type = ch - '0';
             (*FormTail)->next = NULL;
 
-            if(ch == '0'){
+            if((ch - '0') == 0){
                 (*FormTail)->alternatives = NULL;
                 (*FormTail)->nAlts = 0;
+                ch = fgetc(fp);
             
             }else{
                 ch = fgetc(fp);
@@ -547,6 +548,7 @@ void loadQuests(questForm **FormHead, questForm **FormTail){
                 int alts = ch - '0';
 
                 (*FormTail)->alternatives = (char**)calloc(alts, sizeof(char*));
+                ch = fgetc(fp);
 
 
                 for(int i=0; i<alts; i++){
@@ -570,7 +572,6 @@ void loadQuests(questForm **FormHead, questForm **FormTail){
                 (*FormTail)->nAlts = alts;
             }
         }
-
         ch = fgetc(fp);
     }
 }
@@ -883,7 +884,7 @@ void editQuestForm(actvNode *SelectedActiv, questForm **FormHead){
 
     saveQuests(*FormHead);
 }
-
+/*deleta questão*/
 void deleteQuestForm(actvNode *SelectedActiv, questForm **FormHead, questForm **FormTail){
     questForm *selectedQuest = NULL, *current = *FormHead, *temp = NULL;
 
@@ -987,7 +988,7 @@ void menuForm(actvNode *SelectedActiv, questForm **FormHead, questForm **FormTai
             return;
             break;
         case 1:
-            //clear
+            printf("\033[H\033[2J");
             createQuestForm(SelectedActiv, FormHead, FormTail);
             printf("\033[H\033[2J");
             break;
@@ -1750,7 +1751,7 @@ void deleteArea(areaNode **AreaHead, areaNode **AreaTail){
     saveAreas(*AreaHead);
 }
 /*menu de área*/
-void menuArea(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead, specNode *SpecTail,
+void menuManager(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead, specNode *SpecTail,
  actvNode *ActvHead, actvNode *ActvTail, questForm *FormHead, questForm *FormTail, questFormResp *QuestRespHead, questFormResp *QuestRespTail){
     int command = -1;
     areaNode *selectedArea = NULL;
@@ -1828,16 +1829,15 @@ int main()
     areaNode *currentArea = NULL, *AreaHead = NULL, *AreaTail = NULL, *selectedArea = NULL;
     specNode *currentSpec = NULL, *SpecHead = NULL, *SpecTail = NULL, *selectedSpec = NULL;
     actvNode *currentActiv = NULL, *ActvHead = NULL, *ActvTail = NULL, *selectedActiv = NULL;
-    questForm *currentQuest = NULL, *ActvFormtHead = NULL, *ActvFormtTail = NULL, *selectedQuest = NULL;
+    questForm *currentQuest = NULL, *ActvFormHead = NULL, *ActvFormTail = NULL, *selectedQuest = NULL;
     questForm *PrecAvtHead = NULL, *PrecAvTail = NULL;
     questFormResp *QuestRespHead = NULL, *QuestRespTail = NULL;
 
     loadAreas(&AreaHead, &AreaTail);
     loadSpecs(&SpecHead, &SpecTail);
     loadActvs(&ActvHead, &ActvTail);
-    loadQuests(&ActvFormtHead, &ActvFormtTail);
-    //entradaRegistro();
-    menuArea(AreaHead, AreaTail, SpecHead, SpecTail, ActvHead, ActvTail, ActvFormtHead, ActvFormtTail, QuestRespHead, QuestRespTail);
+    loadQuests(&ActvFormHead, &ActvFormTail);
+    entradaRegistro(AreaHead, AreaTail, SpecHead, SpecTail, ActvHead, ActvTail, ActvFormHead, ActvFormTail, QuestRespHead, QuestRespTail);
 
     specNode * c = SpecHead;
     areaNode * d = AreaHead;
@@ -2113,6 +2113,10 @@ Account choose_account_by_number(AccountList accountList, int number) {
     return empty_account;
 }
 
+void menuResident(Account * User){
+
+};
+
 //PARTE 2 DE DIEGO
 typedef struct {
     char account_name[50];
@@ -2144,7 +2148,9 @@ void give_feedback(Account chosenAccount) {
     printf("Feedback salvo com sucesso.\n");
 }
 
-void entradaRegistro(){
+void entradaRegistro(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead, specNode *SpecTail,
+ actvNode *ActvHead, actvNode *ActvTail, questForm *FormHead, questForm *FormTail, questFormResp *QuestRespHead, 
+ questFormResp *QuestRespTail){
   int escolha = -1;
   while(escolha != 0){
   printf("BEM VINDO AO MEDSYNC\n\n");
@@ -2169,6 +2175,13 @@ void entradaRegistro(){
   
       if (loggedUser != NULL) {
         printf("Logado com sucesso.\n");
+        if(strcmp(loggedUser->cargo, "Gerente") == 0){
+            menuManager(AreaHead, AreaTail, SpecHead, SpecTail, ActvHead, ActvTail, FormHead, FormTail, QuestRespHead, QuestRespTail);
+        }else if(strcmp(loggedUser->cargo, "Preceptor") == 0){
+            //menuPreceptor();
+        }else if(strcmp(loggedUser->cargo, "Residente") == 0){
+            //menuResident();
+        }
         
       } else {
         printf("Falha ao logar. Tente novamente.\n");
