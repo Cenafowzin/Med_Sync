@@ -1658,7 +1658,7 @@ void menuArea(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead, specNo
     }
 
 }
-
+void entradaRegistro();
 // testes (sera apagado no fim)
 int main()
 {
@@ -1673,7 +1673,7 @@ int main()
     loadAreas(&AreaHead, &AreaTail);
     loadSpecs(&SpecHead, &SpecTail);
     loadActvs(&ActvHead, &ActvTail);
-
+    entradaRegistro();
     menuArea(AreaHead, AreaTail, SpecHead, SpecTail, ActvHead, ActvTail, ActvFormtHead, ActvFormtTail, QuestRespHead, QuestRespTail);
 
     specNode * c = SpecHead;
@@ -1830,7 +1830,7 @@ typedef struct {
 } Account;
 
 void save_account(Account account) {
-    FILE *file = fopen("accounts.txt", "a");
+    FILE *file = fopen("db/gerencia/accounts.txt", "a");
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         exit(1);
@@ -1888,7 +1888,7 @@ void create_account() {
 }
 
 int login_account(char* login, char* password) {
-    FILE *file = fopen("accounts.txt", "r");
+    FILE *file = fopen("db/gerencia/accounts.txt", "r");
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         exit(1);
@@ -1916,7 +1916,7 @@ AccountList show_specialization(char* specialization) {
     static Account accounts[100];
     int count = 0;
 
-    FILE *file = fopen("accounts.txt", "r");
+    FILE *file = fopen("db/gerencia/accounts.txt", "r");
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         exit(1);
@@ -1957,7 +1957,7 @@ typedef struct {
 } Feedback;
 
 void save_feedback(Feedback feedback) {
-    FILE *file = fopen("feedbacks.txt", "a");
+    FILE *file = fopen("db/gerencia/feedbacks.txt", "a");
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         exit(1);
@@ -1979,4 +1979,47 @@ void give_feedback(Account chosenAccount) {
 
     save_feedback(feedback);
     printf("Feedback salvo com sucesso.\n");
+}
+
+void entradaRegistro(){
+  int escolha = 0;
+  while(escolha != 9){
+  printf("BEM VINDO AO MEDSYNC\n\n");
+  printf("Escolha uma opcao:\n");
+  printf("1 - Login:\n");
+  printf("2 - Registre-se:\n");
+  printf("9 - Encerrar:\n");
+  scanf("%d", &escolha);
+  getchar();
+    if(escolha == 1){
+      char login[50], password[50];
+      printf("Log in:\n\n");
+      printf("Digite o login: ");
+      scanf("%s", login);
+      getchar();
+  
+      printf("Digite a senha: ");
+      scanf("%s", password);
+      getchar();
+  
+      if (login_account(login, password)) {
+        printf("Logado com sucesso.\n");
+      } else {
+        printf("Falha ao logar. Tente novamente.\n");
+        printf("\033[H\033[2J");
+        entradaRegistro();
+      }  
+      
+    }else if (escolha == 2){
+      create_account();
+      printf("\033[H\033[2J");
+      entradaRegistro();
+      
+    }else{
+      printf("\nOpcao invalida\n");
+      sleep(2);
+      printf("\033[H\033[2J");
+      //entradaRegistro();
+    }
+  }
 }
