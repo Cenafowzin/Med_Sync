@@ -837,7 +837,7 @@ void menuForm(actvNode *SelectedActiv, questForm **FormHead, questForm **FormTai
 
         case 3:
             printf("\033[H\033[2J");
-            selectedQuest = selectQuest(SelectedActiv, FormHead, selectedQuest);
+            selectedQuest = selectQuest(SelectedActiv, *FormHead, selectedQuest);
             printf("\033[H\033[2J");
 
             if(selectedQuest != NULL){
