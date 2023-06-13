@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-//#include "functions.h"
+#include "functions.h"
 
 //aREA DE RODRIGO:
 #ifdef _WIN32
@@ -15,40 +15,6 @@ void clearScreen() {
 }
 
 // estruturas (serao transferidas para o funcs.h)
-typedef struct areaNode{
-    char *name;
-    struct areaNode *next;
-} areaNode;
-/*especializacao*/
-typedef struct specNode{
-    char *name;
-    char *area;
-    struct specNode *next;
-} specNode;
-/*atividade*/
-typedef struct actvNode{
-    char *name;
-    int mod;
-    char *spec;
-    struct actvNode *next;
-} actvNode;
-/*questão do formulário*/
-typedef struct questForm{
-    int type;
-    char *activity;//FAZ A LIGAÇÃO ENTRE PERGUNTA E ATIVIDADE
-    char *quest;
-    int nAlts;
-    char **alternatives;
-    struct questForm *next;
-} questForm;
-/*resposta da questão do formulário*/
-typedef struct questFormResp{
-    char *activity;
-    char *quest;
-    char *answer;
-    int alternative;
-    struct questFormResp *next;
-} questFormResp;
 
 // ATIVIDADE ---------------------------------------------------------------
 /*salva atividades*/
@@ -1027,8 +993,6 @@ void menuForm(actvNode *SelectedActiv, questForm **FormHead, questForm **FormTai
 
 }
 
-void answerQuestForm(actvNode *SelectedActiv, questForm *FormHead, questFormResp **FormRespHead, questFormResp **FormRespTail);
-
 /*menu da atividade*/
 void menuActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail, questForm *FormHead, questForm *FormTail,
  questFormResp *QuestRespHead, questFormResp *QuestRespTail){
@@ -1830,43 +1794,8 @@ void menuManager(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead, spe
     }
 
 }
-void entradaRegistro(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead, specNode *SpecTail,
- actvNode *ActvHead, actvNode *ActvTail, questForm *FormHead, questForm *FormTail, questFormResp *QuestRespHead, 
- questFormResp *QuestRespTail);
+
 // testes (sera apagado no fim)
-int main()
-{
-    areaNode *currentArea = NULL, *AreaHead = NULL, *AreaTail = NULL, *selectedArea = NULL;
-    specNode *currentSpec = NULL, *SpecHead = NULL, *SpecTail = NULL, *selectedSpec = NULL;
-    actvNode *currentActiv = NULL, *ActvHead = NULL, *ActvTail = NULL, *selectedActiv = NULL;
-    questForm *currentQuest = NULL, *ActvFormHead = NULL, *ActvFormTail = NULL, *selectedQuest = NULL;
-    questForm *PrecAvtHead = NULL, *PrecAvTail = NULL;
-    questFormResp *QuestRespHead = NULL, *QuestRespTail = NULL;
-
-    loadAreas(&AreaHead, &AreaTail);
-    loadSpecs(&SpecHead, &SpecTail);
-    loadActvs(&ActvHead, &ActvTail);
-    loadQuests(&ActvFormHead, &ActvFormTail);
-    entradaRegistro(AreaHead, AreaTail, SpecHead, SpecTail, ActvHead, ActvTail, ActvFormHead, ActvFormTail, QuestRespHead, QuestRespTail);
-
-    specNode * c = SpecHead;
-    areaNode * d = AreaHead;
-
-    while(SpecHead != NULL){
-        c = SpecHead;
-        SpecHead = SpecHead->next;
-        free(c);
-    }
-
-    while(AreaHead != NULL){
-        d = AreaHead;
-        AreaHead = AreaHead->next;
-        free(d);
-    }
-
-    return 0;
-}
-
 
 //aREA DE VICTOR:
 
@@ -1994,14 +1923,6 @@ void answerQuestForm(actvNode *SelectedActiv, questForm *FormHead, questFormResp
 
 //aREA DE JOaO e Henrique:
 /*dados (login, password, nome, cargo, area, especializacao)*/
-typedef struct {
-    char login[50];
-    char password[50];
-    char nome[50];
-    char cargo[50];
-    char area[50];
-    char especializacao[50];
-} Account;
 
 void save_account(Account account) {
     FILE *file = fopen("db/gerencia/accounts.txt", "a");
@@ -2082,11 +2003,6 @@ Account * login_account(char* login, char* password) {
 
 //Area de Diego:
 
-typedef struct {
-    Account* accounts;
-    int count;
-} AccountList;
-
 AccountList show_specialization(char* specialization, char* cargo) {
     static Account accounts[100];
     int count = 0;
@@ -2128,10 +2044,6 @@ Account choose_account_by_number(AccountList accountList, int number) {
 void menuPreceptor(){
 
 }
-
-void give_feedback(Account chosenAccount);
-
-void print_feedback(const char* account_name);
 
 void menuResident(Account * User, actvNode * ActvHead, questForm *FormHead, questFormResp **FormRespHead, questFormResp **FormRespTail){
     int command = -1, choice;
@@ -2177,10 +2089,6 @@ void menuResident(Account * User, actvNode * ActvHead, questForm *FormHead, ques
 
 //PARTE 2 DE DIEGO
 /*nome e feedback*/
-typedef struct {
-    char account_name[50];
-    char feedback[1000];
-} Feedback;
 
 void save_feedback(Feedback feedback) {
     FILE *file = fopen("db/gerencia/feedbacks.txt", "a");

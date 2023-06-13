@@ -9,13 +9,13 @@ pouca
 media
 muita
 cirurgia
-onde tem?
+onde foi?
 1
 4
-ali
-aqui
-la
-laaaa
+predio 1
+predio 2
+predio 3
+predio 4
 cirurgia
 nome
 0
