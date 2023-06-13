@@ -1658,7 +1658,7 @@ void menuArea(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead, specNo
     }
 
 }
-
+void entradaRegistro();
 // testes (sera apagado no fim)
 int main()
 {
@@ -1673,7 +1673,7 @@ int main()
     loadAreas(&AreaHead, &AreaTail);
     loadSpecs(&SpecHead, &SpecTail);
     loadActvs(&ActvHead, &ActvTail);
-
+    entradaRegistro();
     menuArea(AreaHead, AreaTail, SpecHead, SpecTail, ActvHead, ActvTail, ActvFormtHead, ActvFormtTail, QuestRespHead, QuestRespTail);
 
     specNode * c = SpecHead;
@@ -1979,4 +1979,42 @@ void give_feedback(Account chosenAccount) {
 
     save_feedback(feedback);
     printf("Feedback salvo com sucesso.\n");
+}
+
+void entradaRegistro(){
+  int escolha;
+  printf("BEM VINDO AO MEDSYNC\n");
+  printf("1 - LOGIN:\n");
+  printf("2 - Registre-se:\n");
+  scanf("%d", &escolha);
+  getchar();
+  if(escolha == 1){
+    char login[50], password[50];
+    printf("Log in:\n\n");
+    printf("Digite o login: ");
+    scanf("%s", login);
+    getchar();
+
+    printf("Digite a senha: ");
+    scanf("%s", password);
+    getchar();
+
+    if (login_account(login, password)) {
+      printf("Logado com sucesso.\n");
+    } else {
+      printf("Falha ao logar. Tente novamente.\n");
+      printf("\033[H\033[2J");
+      entradaRegistro();
+    }  
+    
+  }else if (escolha == 2){
+    create_account();
+    printf("\033[H\033[2J");
+    entradaRegistro();
+  }else{
+    printf("\nOpcao invalida\n");
+    sleep(2);
+    printf("\033[H\033[2J");
+    entradaRegistro();
+  }
 }
