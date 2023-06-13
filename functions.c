@@ -4,6 +4,15 @@
 //#include "functions.h"
 
 //aREA DE RODRIGO:
+#ifdef _WIN32
+    #define CLEAR_SCREEN "cls"
+#else
+    #define CLEAR_SCREEN "clear"
+#endif
+
+void clearScreen() {
+    system(CLEAR_SCREEN);
+}
 
 // estruturas (serao transferidas para o funcs.h)
 typedef struct areaNode{
@@ -988,20 +997,20 @@ void menuForm(actvNode *SelectedActiv, questForm **FormHead, questForm **FormTai
             return;
             break;
         case 1:
-            printf("\033[H\033[2J");
+            clearScreen();
             createQuestForm(SelectedActiv, FormHead, FormTail);
-            printf("\033[H\033[2J");
+            clearScreen();
             break;
         case 2:
-            printf("\033[H\033[2J");
+            clearScreen();
             editQuestForm(SelectedActiv, FormHead);
-            printf("\033[H\033[2J");
+            clearScreen();
             break;
 
         case 3:
-            printf("\033[H\033[2J");
+            clearScreen();
             selectedQuest = selectQuest(SelectedActiv, *FormHead, selectedQuest);
-            printf("\033[H\033[2J");
+            clearScreen();
 
             if(selectedQuest != NULL){
                 printf("[%s]\n\n", selectedQuest->quest);
@@ -1009,9 +1018,9 @@ void menuForm(actvNode *SelectedActiv, questForm **FormHead, questForm **FormTai
             break;
 
         case 4:
-            printf("\033[H\033[2J");
+            clearScreen();
             deleteQuestForm(SelectedActiv, FormHead, FormTail);
-            printf("\033[H\033[2J");
+            clearScreen();
             break;
         }
     }
@@ -1063,21 +1072,21 @@ void menuActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail, 
             return;
             break;
         case 1:
-            printf("\033[H\033[2J");
+            clearScreen();
             createActv(SelectedSpec, ActvHead, ActvTail);
-            printf("\033[H\033[2J");
+            clearScreen();
             break;
 
         case 2:
-            printf("\033[H\033[2J");
+            clearScreen();
             editActv(SelectedSpec, ActvHead);
-            printf("\033[H\033[2J");
+            clearScreen();
             break;
 
         case 3:
-            printf("\033[H\033[2J");
+            clearScreen();
             selectedActv = selectActv(SelectedSpec->name, *ActvHead, selectedActv);
-            printf("\033[H\033[2J");
+            clearScreen();
 
             if(selectedActv != NULL){
                 printf("[%s]\n\n", selectedActv->name);
@@ -1085,23 +1094,23 @@ void menuActv(specNode *SelectedSpec, actvNode **ActvHead, actvNode **ActvTail, 
             break;
 
         case 4:
-            printf("\033[H\033[2J");
+            clearScreen();
             deleteActv(SelectedSpec, ActvHead, ActvTail);
-            printf("\033[H\033[2J");
+            clearScreen();
             break;
 
         case 5:
             selectedActv = selectActv(SelectedSpec->name, *ActvHead, selectedActv);
-            printf("\033[H\033[2J");
+            clearScreen();
             menuForm(selectedActv, &FormHead, &FormTail);
-            printf("\033[H\033[2J");
+            clearScreen();
             break;
 
         case 6:
             selectedActv = selectActv(SelectedSpec->name, *ActvHead, selectedActv);
-            printf("\033[H\033[2J");
+            clearScreen();
             answerQuestForm(selectedActv, FormHead, &QuestRespHead, &QuestRespTail);
-            printf("\033[H\033[2J");
+            clearScreen();
             break;
 
         }
@@ -1466,21 +1475,21 @@ void menuSpec(areaNode *SelectedArea, specNode **SpecHead, specNode **SpecTail, 
             break;
         case 1:
             getchar();
-            printf("\033[H\033[2J");
+            clearScreen();
             createSpec(SelectedArea, SpecHead, SpecTail);
-            printf("\033[H\033[2J");
+            clearScreen();
             break;
 
         case 2:
-            printf("\033[H\033[2J");
+            clearScreen();
             editSpec(SelectedArea, SpecHead);
-            printf("\033[H\033[2J");
+            clearScreen();
             break;
 
         case 3:
-            printf("\033[H\033[2J");
+            clearScreen();
             selectedSpec = selectSpec(SelectedArea, *SpecHead, selectedSpec);
-            printf("\033[H\033[2J");
+            clearScreen();
 
             if(selectedSpec != NULL){
                 printf("[%s]\n\n", selectedSpec->name);
@@ -1488,17 +1497,17 @@ void menuSpec(areaNode *SelectedArea, specNode **SpecHead, specNode **SpecTail, 
             break;
 
         case 4:
-            printf("\033[H\033[2J");
+            clearScreen();
             deleteSpec(SelectedArea, SpecHead, SpecTail);
-            printf("\033[H\033[2J");
+            clearScreen();
             break;
 
         case 5:
-            printf("\033[H\033[2J");
+            clearScreen();
             selectedSpec = selectSpec(SelectedArea, *SpecHead, selectedSpec);
-            printf("\033[H\033[2J");
+            clearScreen();
             menuActv(selectedSpec, &ActvHead, &ActvTail, FormHead, FormTail, QuestRespHead, QuestRespTail);
-            printf("\033[H\033[2J");
+            clearScreen();
             break;
 
         }
@@ -1755,7 +1764,7 @@ void menuManager(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead, spe
  actvNode *ActvHead, actvNode *ActvTail, questForm *FormHead, questForm *FormTail, questFormResp *QuestRespHead, questFormResp *QuestRespTail){
     int command = -1;
     areaNode *selectedArea = NULL;
-    //printf("\033[H\033[2J");
+    //clearScreen();
 
     while(command != 0){
         if(AreaHead == NULL){
@@ -1781,22 +1790,22 @@ void menuManager(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead, spe
         switch(command){
         case 1:
             getchar();
-            printf("\033[H\033[2J");
+            clearScreen();
             createArea(&AreaHead, &AreaTail);
-            printf("\033[H\033[2J");
+            clearScreen();
             break;
 
         case 2:
-            printf("\033[H\033[2J");
+            clearScreen();
             editArea(&AreaHead);
-            printf("\033[H\033[2J");
+            clearScreen();
 
             break;
 
         case 3:
-            printf("\033[H\033[2J");
+            clearScreen();
             selectedArea = selectArea(AreaHead, selectedArea);
-            printf("\033[H\033[2J");
+            clearScreen();
 
             if(selectedArea != NULL){
                 printf("[%s]\n\n", selectedArea->name);
@@ -1804,17 +1813,17 @@ void menuManager(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead, spe
             break;
 
         case 4:
-            printf("\033[H\033[2J");
+            clearScreen();
             deleteArea(&AreaHead, &AreaTail);
-            printf("\033[H\033[2J");
+            clearScreen();
             break;
 
         case 5:
-            printf("\033[H\033[2J");
+            clearScreen();
             selectedArea = selectArea(AreaHead, selectedArea);
-            printf("\033[H\033[2J");
+            clearScreen();
             menuSpec(selectedArea, &SpecHead, &SpecTail, ActvHead, ActvTail, FormHead, FormTail, QuestRespHead, QuestRespTail);
-            printf("\033[H\033[2J");
+            clearScreen();
             break;
 
         }
@@ -1827,7 +1836,6 @@ void entradaRegistro(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead,
 // testes (sera apagado no fim)
 int main()
 {
-
     areaNode *currentArea = NULL, *AreaHead = NULL, *AreaTail = NULL, *selectedArea = NULL;
     specNode *currentSpec = NULL, *SpecHead = NULL, *SpecTail = NULL, *selectedSpec = NULL;
     actvNode *currentActiv = NULL, *ActvHead = NULL, *ActvTail = NULL, *selectedActiv = NULL;
@@ -2123,13 +2131,15 @@ void menuPreceptor(){
 
 void give_feedback(Account chosenAccount);
 
+void print_feedback(const char* account_name);
+
 void menuResident(Account * User, actvNode * ActvHead, questForm *FormHead, questFormResp **FormRespHead, questFormResp **FormRespTail){
     int command = -1, choice;
     actvNode * selectedActv = NULL;
     AccountList list;
 
     while(command != 0){
-        printf("\033[H\033[2J");
+        clearScreen();
         printf("Selecione uma acao para fazer:\n");
         printf("0 - Sair\n");
         printf("1 - Registrar Atividade\n");
@@ -2139,21 +2149,27 @@ void menuResident(Account * User, actvNode * ActvHead, questForm *FormHead, ques
 
         switch(command){
         case 1:
-            printf("\033[H\033[2J");
+            clearScreen();
             selectedActv = selectActv(User->especializacao, ActvHead, selectedActv);
-            printf("\033[H\033[2J");
+            clearScreen();
             answerQuestForm(selectedActv, FormHead, FormRespHead, FormRespTail);
+            clearScreen();
             break;
 
         case 2:
+            clearScreen();
             list = show_specialization(User->especializacao, "Preceptor");
             scanf("%d", &choice);
             getchar();
+            clearScreen();
             give_feedback(choose_account_by_number(list, choice));
+            clearScreen();
             break;
 
         case 3:
-            show_feedback();
+            clearScreen();
+            print_feedback(User->nome);
+            clearScreen();
             break;
         }
     }
@@ -2183,7 +2199,6 @@ void give_feedback(Account chosenAccount) {
     strcpy(feedback.account_name, chosenAccount.nome);
 
     printf("Dê seu feedback para %s: ", chosenAccount.nome);
-    getchar();  // Limpa o buffer do teclado
     fgets(feedback.feedback, sizeof(feedback.feedback), stdin);
     feedback.feedback[strcspn(feedback.feedback, "\n")] = '\0';  // Remove a quebra de linha no final
 
@@ -2199,15 +2214,19 @@ void print_feedback(const char* account_name) {
     }
 
     Feedback feedback;
-    int count = 0;
+    int count = 0, back = 1;
 
-    while (fscanf(file, "%49[^:]: %[^\n]\n", feedback.account_name, feedback.feedback) != EOF) {
-        if (strcmp(account_name, feedback.account_name) == 0) {
-            printf("Feedback %d:\n", ++count);
-            printf("Account Name: %s\n", feedback.account_name);
-            printf("Feedback: %s\n", feedback.feedback);
-            printf("\n");
+    while (back != 0){
+        while (fscanf(file, "%49[^:]: %[^\n]\n", feedback.account_name, feedback.feedback) != EOF) {
+            if (strcmp(account_name, feedback.account_name) == 0) {
+                printf("Feedback %d:\n", ++count);
+                printf("Account Name: %s\n", feedback.account_name);
+                printf("Feedback: %s\n", feedback.feedback);
+                printf("\n");
+            }
         }
+        printf("0 - voltar\n");
+        scanf("%d", &back);
     }
 
     fclose(file);
@@ -2221,55 +2240,57 @@ void print_feedback(const char* account_name) {
 void entradaRegistro(areaNode *AreaHead, areaNode *AreaTail, specNode *SpecHead, specNode *SpecTail,
  actvNode *ActvHead, actvNode *ActvTail, questForm *FormHead, questForm *FormTail, questFormResp *QuestRespHead, 
  questFormResp *QuestRespTail){
-  int escolha = -1;
-  while(escolha != 0){
-  printf("BEM VINDO AO MEDSYNC\n\n");
-  printf("Escolha uma opcao:\n");
-  printf("1 - Login:\n");
-  printf("2 - Registre-se:\n");
-  printf("0 - Encerrar:\n");
-  scanf("%d", &escolha);
-  getchar();
-    if(escolha == 1){
-      char login[50], password[50];
-      printf("Log in:\n\n");
-      printf("Digite o login: ");
-      scanf("%s", login);
-      getchar();
-  
-      printf("Digite a senha: ");
-      scanf("%s", password);
-      getchar();
+    int escolha = -1;
+    while(escolha != 0){
+        clearScreen();
+        printf("BEM VINDO AO MEDSYNC\n\n");
+        printf("Escolha uma opcao:\n");
+        printf("1 - Login:\n");
+        printf("2 - Registre-se:\n");
+        printf("0 - Encerrar:\n");
+        scanf("%d", &escolha);
+        getchar();
+        clearScreen();
+        if(escolha == 1){
+            char login[50], password[50];
+            printf("Log in:\n\n");
+            printf("Digite o login: ");
+            scanf("%s", login);
+            getchar();
 
-      Account * loggedUser= login_account(login, password);
-  
-      if (loggedUser != NULL) {
-        printf("Logado com sucesso.\n");
-        if(strcmp(loggedUser->cargo, "Gerente") == 0){
-            menuManager(AreaHead, AreaTail, SpecHead, SpecTail, ActvHead, ActvTail, FormHead, FormTail, QuestRespHead, QuestRespTail);
+            printf("Digite a senha: ");
+            scanf("%s", password);
+            getchar();
 
-        }else if(strcmp(loggedUser->cargo, "Preceptor") == 0){
-            menuPreceptor();
+            Account * loggedUser= login_account(login, password);
 
-        }else if(strcmp(loggedUser->cargo, "Residente") == 0){
-            printf("\033[H\033[2J");
-            menuResident(loggedUser, ActvHead, FormHead, &QuestRespHead, &QuestRespTail);
+            if (loggedUser != NULL) {
+                printf("Logado com sucesso.\n");
+                if(strcmp(loggedUser->cargo, "Gerente") == 0){
+                    menuManager(AreaHead, AreaTail, SpecHead, SpecTail, ActvHead, ActvTail, FormHead, FormTail, QuestRespHead, QuestRespTail);
 
+                }else if(strcmp(loggedUser->cargo, "Preceptor") == 0){
+                    menuPreceptor();
+
+                }else if(strcmp(loggedUser->cargo, "Residente") == 0){
+                    clearScreen();
+                    menuResident(loggedUser, ActvHead, FormHead, &QuestRespHead, &QuestRespTail);
+
+                }
+                
+            }else{
+                printf("Falha ao logar. Tente novamente.\n");
+                clearScreen();
+            }  
+            
+        }else if (escolha == 2){
+            create_account();
+            clearScreen();
+            
+        }else if(escolha != 0){
+            printf("\nOpcao invalida\n");
+            sleep(2);
+            clearScreen();
         }
-        
-      }else{
-        printf("Falha ao logar. Tente novamente.\n");
-        printf("\033[H\033[2J");
-      }  
-      
-    }else if (escolha == 2){
-      create_account();
-      printf("\033[H\033[2J");
-      
-    }else if(escolha != 0){
-      printf("\nOpcao invalida\n");
-      sleep(2);
-      printf("\033[H\033[2J");
     }
-  }
 }

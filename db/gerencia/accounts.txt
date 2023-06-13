@@ -1,3 +1,4 @@
 rodrigo;123;rodrigo dubeux;Gerente;medica;neurologia
 res;123;residente oo;Residente;medica;neurologia
 prec1;123;rom rio;Preceptor;medica;neurologia
+omo;123;omaristo mono olho;Residente;medica;neurologia
