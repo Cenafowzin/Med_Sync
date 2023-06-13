@@ -1830,7 +1830,7 @@ typedef struct {
 } Account;
 
 void save_account(Account account) {
-    FILE *file = fopen("accounts.txt", "a");
+    FILE *file = fopen("db/gerencia/accounts.txt", "a");
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         exit(1);
@@ -1888,7 +1888,7 @@ void create_account() {
 }
 
 int login_account(char* login, char* password) {
-    FILE *file = fopen("accounts.txt", "r");
+    FILE *file = fopen("db/gerencia/accounts.txt", "r");
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         exit(1);
@@ -1916,7 +1916,7 @@ AccountList show_specialization(char* specialization) {
     static Account accounts[100];
     int count = 0;
 
-    FILE *file = fopen("accounts.txt", "r");
+    FILE *file = fopen("db/gerencia/accounts.txt", "r");
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         exit(1);
@@ -1957,7 +1957,7 @@ typedef struct {
 } Feedback;
 
 void save_feedback(Feedback feedback) {
-    FILE *file = fopen("feedbacks.txt", "a");
+    FILE *file = fopen("db/gerencia/feedbacks.txt", "a");
     if (file == NULL) {
         printf("Erro ao abrir o arquivo.\n");
         exit(1);
